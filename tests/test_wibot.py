@@ -6,9 +6,13 @@
 
 import unittest
 from click.testing import CliRunner
-
-from wibot import wibot
+import os
+from wibot.endpoint import SparkEndpoint
 from wibot import cli
+import logging
+
+logging.getLogger('wibot.spark').setLevel(logging.DEBUG)
+logging.getLogger('wibot.spark').addHandler(logging.StreamHandler())
 
 
 class TestWibot(unittest.TestCase):
@@ -16,12 +20,24 @@ class TestWibot(unittest.TestCase):
 
     def setUp(self):
         """Set up test fixtures, if any."""
+        bot_name = "Storage"
+        bot_token = os.environ.get('STORAGE_BOT_TOKEN')
+        self.spark_ws = SparkEndpoint(bot_name, bot_token)
 
     def tearDown(self):
         """Tear down test fixtures, if any."""
 
-    def test_000_something(self):
-        """Test something."""
+    def test_get_all_bot_devices(self):
+        print(list(map(lambda device: device['webSocketUrl'], self.spark_ws.get_all_devices())))
+
+    def test_delete_all_bot_devices(self):
+        self.spark_ws.delete_all_existing_devices()
+
+    def test_get_device_ws_url(self):
+        print(self.spark_ws.get_websocket_url())
+
+    def test_register_device(self):
+        print(self.spark_ws.register_device())
 
     def test_command_line_interface(self):
         """Test the CLI."""
