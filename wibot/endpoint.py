@@ -25,6 +25,7 @@ class SparkEndpoint:
 
     def setup(self):
         LOGGER.debug('Setting up endpoint')
+        self.delete_all_existing_devices()
         self.register_device()
 
     def register_device(self):
@@ -48,13 +49,16 @@ class SparkEndpoint:
 
         response = requests.request("POST", SPARK_DEVICES_URL, data=json.dumps(payload),
                                     headers=BOT_AUTH_HEADER)
-
         return response.json()
 
     def get_all_devices(self) -> List[str]:
         LOGGER.debug('Getting all devices')
 
         response = requests.get(SPARK_DEVICES_URL, headers=BOT_AUTH_HEADER)
+
+        if response.status_code == 404:
+            return list()
+
         data = response.json()
         if 'message' in data and 'No devices found' in data['message']:
             return list()

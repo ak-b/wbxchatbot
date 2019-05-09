@@ -8,8 +8,8 @@ from click.testing import CliRunner
 from webexteamssdk import WebexTeamsAPI
 from webexteamssdk.exceptions import ApiError
 from webexteamssdk.models.immutable import Message
-from wistorage.cli.cli import main
-
+from wibot.rbac import get_role
+from wibot.cli.cli import admin, compute
 from wibot import BOT_TOKEN, BOT_AUTH_HEADER, BOT_NAME
 
 LOGGER = logging.getLogger(__name__)
@@ -34,19 +34,32 @@ def send_response(roomId: str, response_text: str):
 
 def process_message(message):
     json_data = json.loads(message)
-    LOGGER.debug(pprint.pprint(json_data))
     if 'data' in json_data and \
         'activity' in json_data['data'] and \
         'id' in json_data['data']['activity']:
         message_id = json_data['data']['activity']['id']
         try:
             message: Message = api.messages.get(message_id)
+            LOGGER.debug(message)
             if message.personId == api.people.me().id:
                 return
+
+            email = message.personEmail
+            role = get_role(email)
+            if not role:
+                send_response(message.roomId, "Unauthorized user {}".format(email))
+                return
+
             LOGGER.debug(message.text)
             runner = CliRunner()
             args = message.text.split()
-            result = runner.invoke(main, args if not args[0] == BOT_NAME else args[1:])
+            result = "Unauthorized user {}".format(email)
+            if role == "storage":
+                result = runner.invoke(admin, args if not args[0] == BOT_NAME else args[1:])
+
+            if role == "compute":
+                result = runner.invoke(compute, args if not args[0] == BOT_NAME else args[1:])
+
             LOGGER.debug("{} {}".format(result.output, result.exit_code))
             send_response(message.roomId, result.output)
         except ApiError:

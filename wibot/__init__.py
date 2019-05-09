@@ -14,3 +14,15 @@ BOT_AUTH_HEADER = {
     'content-type': "application/json",
     'cache-control': "no-cache",
 }
+
+SOLIDFIRE_USERNAME = os.environ.get('SOLIDFIRE_USERNAME')
+SOLIDFIRE_PASSWORD = os.environ.get('SOLIDFIRE_PASSWORD')
+
+NETAPP_USERNAME = os.environ.get('NETAPP_USERNAME')
+NETAPP_PASSWORD = os.environ.get('NETAPP_PASSWORD')
+
+PURE_USERNAME = os.environ.get('PURE_USERNAME')
+PURE_PASSWORD = os.environ.get('PURE_PASSWORD')
+
+JIRA_USERNAME = os.environ.get('JIRA_USERNAME')
+JIRA_PASSWORD = os.environ.get('JIRA_PASSWORD')

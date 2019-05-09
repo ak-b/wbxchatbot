@@ -6,8 +6,8 @@
 
 import unittest
 from click.testing import CliRunner
-import os
 from wibot.endpoint import SparkEndpoint
+from wibot.rbac import rbac_init
 from wibot import cli
 import logging
 
@@ -20,9 +20,7 @@ class TestWibot(unittest.TestCase):
 
     def setUp(self):
         """Set up test fixtures, if any."""
-        bot_name = "Storage"
-        bot_token = os.environ.get('STORAGE_BOT_TOKEN')
-        self.spark_ws = SparkEndpoint(bot_name, bot_token)
+        self.spark_ws = SparkEndpoint()
 
     def tearDown(self):
         """Tear down test fixtures, if any."""
@@ -48,3 +46,10 @@ class TestWibot(unittest.TestCase):
         help_result = runner.invoke(cli.main, ['--help'])
         assert help_result.exit_code == 0
         assert '--help  Show this message and exit.' in help_result.output
+
+    def test_rbac_init(self):
+        users_db = '/Users/vpatil3/projects/wibot/users.db'
+        users = rbac_init(users_db)
+        for user in users.keys():
+            print(user, users[user])
+
