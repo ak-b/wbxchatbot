@@ -1,8 +1,6 @@
 import configparser
-from collections import defaultdict
-from wibot.cli import compute as compute_cli
-from wibot.cli import admin as storage_cli
 import logging
+from collections import defaultdict
 
 LOGGER = logging.getLogger(__name__)
 
@@ -33,4 +31,3 @@ def get_role(user_email):
     roles = users[user]
     LOGGER.debug('Got roles {}'.format(roles))
     return next(iter(roles))
-

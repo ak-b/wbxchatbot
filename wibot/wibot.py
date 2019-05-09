@@ -17,7 +17,7 @@ logging.getLogger('wibot.rbac').addHandler(logging.StreamHandler())
 logging.getLogger('wibot.rbac').setLevel(logging.DEBUG)
 
 if __name__ == "__main__":
-    rbac_init('users.db')
+    rbac_init('/opt/wibot/users.properties')
     spark_endpoint = SparkEndpoint()
     spark_endpoint.setup()
 

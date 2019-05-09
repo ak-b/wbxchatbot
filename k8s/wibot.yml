@@ -1,0 +1,80 @@
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: wibot 
+  namespace: iaas-tooling
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        task: wibot 
+        k8s-app: wibot 
+    spec:
+      containers:
+      - name: wibot 
+        image: registry-qa.webex.com/iaas-storage/wibot0.0.1-3-g0562cb7 
+        volumeMounts:
+        - mountPath: "/opt/wibot"
+          name: wibot-users-volume
+        env:
+        - name: NETAPP_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: wibot-secret
+              key: NETAPP_USERNAME
+        - name: NETAPP_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: wibot-secret
+              key: NETAPP_PASSWORD
+        - name: SOLIDFIRE_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: wibot-secret
+              key: SOLIDFIRE_USERNAME
+        - name: SOLIDFIRE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: wibot-secret
+              key: SOLIDFIRE_PASSWORD
+        - name: PURE_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: wibot-secret
+              key: PURE_USERNAME
+        - name: PURE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: wibot-secret
+              key: PURE_PASSWORD
+        - name: BOT_NAME
+          valueFrom:
+            secretKeyRef:
+              name: wibot-secret
+              key: BOT_NAME
+        - name: BOT_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: wibot-secret
+              key: BOT_TOKEN
+        - name: INFRADB_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: wibot-secret
+              key: INFRADB_USERNAME
+        - name: INFRADB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: wibot-secret
+              key: INFRADB_PASSWORD
+        - name: INFRADB_GRAPHQL_URL
+          valueFrom:
+            secretKeyRef:
+              name: wibot-secret
+              key: INFRADB_GRAPHQL_URL
+      volumes:
+      - name: wibot-users-volume 
+        configMap:
+            name: wibot-users 
