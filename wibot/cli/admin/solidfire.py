@@ -28,3 +28,28 @@ def capacity(cluster):
     capacity['used'] = bytes_to_str(int(capacity['used']))
     capacity['provisioned'] = bytes_to_str(int(capacity['provisioned']))
     print_table([capacity])
+
+@solidfire.command(name="nodes", help="Get nodes on solidfire cluster")
+@click.option('--username', default=SOLIDFIRE_USERNAME, type=str)
+@click.option('--password', default=SOLIDFIRE_PASSWORD, type=str)
+@click.argument('hostname', nargs=1)
+def nodes(username, password, hostname):
+    if not username or not password:
+        print('Insufficient credentials')
+        sys.exit(1)
+
+    solidfire = SolidFire(hostname, username, password)
+    print_table(solidfire.nodes)
+
+
+@solidfire.command(name="health", help="Get overall health of the solidfire cluster")
+@click.option('--username', default=SOLIDFIRE_USERNAME, type=str)
+@click.option('--password', default=SOLIDFIRE_PASSWORD, type=str)
+@click.argument('hostname', nargs=1)
+def health(username, password, hostname):
+    if not username or not password:
+        print('Insufficient credentials')
+        sys.exit(1)
+
+    solidfire = SolidFire(hostname, username, password)
+    print_table(solidfire.health)
