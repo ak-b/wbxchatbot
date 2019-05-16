@@ -12,14 +12,14 @@ def solidfire():
     pass
 
 
-@solidfire.command(help="Inventory from infradb")
+@solidfire.command(help="Global Inventory")
 def inventory():
     clusters = list(map(lambda cluster: cluster.lower(), fetch_solidfire_clusters()))
     clusters.sort()
     print_table(list(map(lambda cluster: {'name': cluster}, clusters)))
 
 
-@solidfire.command(help="Capacity for a solidfire cluster")
+@solidfire.command(help="Cluster capacity")
 @click.argument("cluster", nargs=1)
 def capacity(cluster):
     sf = SolidFire(cluster, SOLIDFIRE_USERNAME, SOLIDFIRE_PASSWORD)
@@ -29,27 +29,23 @@ def capacity(cluster):
     capacity['provisioned'] = bytes_to_str(int(capacity['provisioned']))
     print_table([capacity])
 
-@solidfire.command(name="nodes", help="Get nodes on solidfire cluster")
-@click.option('--username', default=SOLIDFIRE_USERNAME, type=str)
-@click.option('--password', default=SOLIDFIRE_PASSWORD, type=str)
-@click.argument('hostname', nargs=1)
-def nodes(username, password, hostname):
-    if not username or not password:
-        print('Insufficient credentials')
-        sys.exit(1)
 
-    solidfire = SolidFire(hostname, username, password)
+@solidfire.command(help="Utilization per volume")
+@click.argument("cluster", nargs=1)
+def utilization(cluster):
+    sf = SolidFire(cluster, SOLIDFIRE_USERNAME, SOLIDFIRE_PASSWORD)
+    print_table(sf.volume_util)
+
+
+@solidfire.command(name="nodes", help="Node information")
+@click.argument('hostname', nargs=1)
+def nodes(hostname):
+    solidfire = SolidFire(hostname, SOLIDFIRE_USERNAME, SOLIDFIRE_PASSWORD)
     print_table(solidfire.nodes)
 
 
-@solidfire.command(name="health", help="Get overall health of the solidfire cluster")
-@click.option('--username', default=SOLIDFIRE_USERNAME, type=str)
-@click.option('--password', default=SOLIDFIRE_PASSWORD, type=str)
+@solidfire.command(name="health", help="Cluster health")
 @click.argument('hostname', nargs=1)
-def health(username, password, hostname):
-    if not username or not password:
-        print('Insufficient credentials')
-        sys.exit(1)
-
-    solidfire = SolidFire(hostname, username, password)
+def health(hostname):
+    solidfire = SolidFire(hostname, SOLIDFIRE_USERNAME, SOLIDFIRE_PASSWORD)
     print_table(solidfire.health)

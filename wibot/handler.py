@@ -14,6 +14,7 @@ from wibot import BOT_TOKEN, BOT_AUTH_HEADER, BOT_NAME
 
 LOGGER = logging.getLogger(__name__)
 API_URL = "https://api.ciscospark.com/v1/messages"
+MAX_MSG_SIZE = 4096
 
 api: WebexTeamsAPI = None
 message_processor = ThreadPoolExecutor(max_workers=4)
@@ -61,7 +62,22 @@ def process_message(message):
                 result = runner.invoke(compute, args if not args[0] == BOT_NAME else args[1:])
 
             LOGGER.debug("{} {}".format(result.output, result.exit_code))
-            send_response(message.roomId, result.output)
+
+            #
+            # Webex Teams has a limit on message size, so we need to chunk the output
+            #
+            split_output = result.output.split('\n')
+
+            buf = ''
+            for line in split_output:
+                buf = buf + '\n' + line
+                if len(buf) > MAX_MSG_SIZE:
+                    send_response(message.roomId, buf)
+                    buf = ''
+
+            if buf.strip():
+                send_response(message.roomId, buf)
+
         except ApiError:
             LOGGER.error("Unable to fetch message {}".format(message_id, json_data))
 

@@ -11,12 +11,12 @@ from wibot.cli.admin.solidfire import solidfire as admin_solidfire
 from wibot.cli.compute.solidfire import solidfire
 
 
-@click.group(name='admin')
+@click.group(name='admin', help="Storage team commands")
 def admin(args=None):
     pass
 
 
-@click.group(name='compute')
+@click.group(name='compute', help="Compute team commands")
 def compute(args=None):
     pass
 

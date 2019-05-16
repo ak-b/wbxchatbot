@@ -11,14 +11,14 @@ def solidfire():
     pass
 
 
-@solidfire.command(help="Inventory")
+@solidfire.command(help="Global inventory")
 def inventory():
     clusters = list(map(lambda cluster: cluster.lower(), fetch_solidfire_clusters()))
     clusters.sort()
     print_table(list(map(lambda cluster: {'name': cluster}, clusters)))
 
 
-@solidfire.command(help="Capacity for a solidfire cluster")
+@solidfire.command(help="Cluster Capacity")
 @click.argument("cluster", nargs=1)
 def capacity(cluster):
     sf = SolidFire(cluster, SOLIDFIRE_USERNAME, SOLIDFIRE_PASSWORD)
@@ -27,3 +27,10 @@ def capacity(cluster):
     capacity['used'] = bytes_to_str(int(capacity['used']))
     capacity['provisioned'] = bytes_to_str(int(capacity['provisioned']))
     print_table([capacity])
+
+
+@solidfire.command(help="Utilization per volume")
+@click.argument("cluster", nargs=1)
+def utilization(cluster):
+    sf = SolidFire(cluster, SOLIDFIRE_USERNAME, SOLIDFIRE_PASSWORD)
+    print_table(sf.volume_util)

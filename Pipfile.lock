@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "3240521980ceed447d31c506fd73531e18ee4b1b5e927732b75ed6ba06a38b6c"
+            "sha256": "018106d017bb06e9da74d5777790a8a5af6a6db0c80ce1d796beb4d0bd1bde4f"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -853,11 +853,11 @@
         },
         "wistorage": {
             "hashes": [
-                "sha256:7286c76d318728b5ef8527e6aaae51776258e94ed6c6e30de4dc187d720ba16b",
-                "sha256:9596d42054ac4e249fb92ea1f7c6944919f672b4df970800ca4f7504d26f4673"
+                "sha256:10c52e2b5649d08d7615e2d96cab3cda60ef6d3f15510459d00d6e6eea6853a8",
+                "sha256:298eeb834386722104257d908d85b9a19baf9794a0bbbd48bd0a94e15df225d8"
             ],
             "index": "iaas",
-            "version": "==0.2.20"
+            "version": "==0.2.23"
         },
         "wiutil": {
             "hashes": [
