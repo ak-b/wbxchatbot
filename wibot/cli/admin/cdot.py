@@ -2,7 +2,7 @@ import click
 from wistorage.core.netapp import FilerCDOT
 from wistorage.infradb.cdot import fetch_all_cdots
 from wiutil.pprint import print_table
-
+from wiutil.pprint import bytes_to_str
 from wibot import NETAPP_USERNAME, NETAPP_PASSWORD
 
 
@@ -16,14 +16,6 @@ def inventory():
     clusters = list(map(lambda cluster: cluster['name'].lower(), fetch_all_cdots()))
     clusters.sort()
     print_table(list(map(lambda cluster: {'name': cluster}, clusters)))
-
-
-@cdot.command(help="List total, spare and failed disk count on a NetApp cDOT filer")
-@click.argument('hostname', nargs=1)
-def disks(hostname):
-    filer = FilerCDOT(hostname, NETAPP_USERNAME, NETAPP_PASSWORD)
-    total, spare, failed = filer.disks
-    print("total = {}, spare = {}, failed = {}".format(total, spare, failed))
 
 
 @cdot.command(help="List the health on a NetApp cDOT filer")
@@ -45,3 +37,38 @@ def nodes(hostname):
 def interfaces(hostname):
     filer = FilerCDOT(hostname, NETAPP_USERNAME, NETAPP_PASSWORD)
     print_table(filer.interfaces)
+
+
+@cdot.command(help="Show capacity for NetApp cDOT filer")
+@click.argument('hostname', nargs=1)
+def capacity(hostname):
+    filer = FilerCDOT(hostname, NETAPP_USERNAME, NETAPP_PASSWORD)
+    print_table(filer.capacity)
+
+
+@cdot.command(help="Show the disks for NetApp cDOT filer")
+@click.argument('hostname', nargs=1)
+def disks(hostname):
+    filer = FilerCDOT(hostname, NETAPP_USERNAME, NETAPP_PASSWORD)
+    total, spare, failed = filer.disks
+    print_table([{'total': total, 'spare': spare, 'failed': failed}])
+
+
+@cdot.command(help="List the aggregates on a NetApp cDOT filer")
+@click.argument('hostname', nargs=1)
+def aggregates(hostname):
+    filer = FilerCDOT(hostname, NETAPP_USERNAME, NETAPP_PASSWORD)
+    aggr_list = list()
+    for aggr in filer.aggregates:
+        aggr_info = {
+            'name': aggr.name,
+            'is-root': 'true' if aggr.is_root else 'false',
+            'total_size': bytes_to_str(aggr.total_size),
+            'current_size': bytes_to_str(aggr.current_size),
+            'utilization': aggr.utilization,
+            'disks': aggr.disk_count,
+            'node': aggr.node
+        }
+        aggr_list.append(aggr_info)
+
+    print_table(aggr_list)

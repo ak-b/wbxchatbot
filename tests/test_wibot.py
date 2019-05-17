@@ -18,6 +18,7 @@ logging.getLogger('wibot.spark').addHandler(logging.StreamHandler())
 
 TEST_CDOT = "sjc02cdot03.webex.com"
 TEST_SOLIDFIRE = "sin01sdfr01.webex.com"
+TEST_7MODE = "ESG1NAS11.webex.com"
 
 
 class TestWibot(unittest.TestCase):
@@ -66,6 +67,8 @@ class TestWibot(unittest.TestCase):
             "cdot health {}".format(TEST_CDOT),
             "cdot interfaces {}".format(TEST_CDOT),
             "cdot nodes {}".format(TEST_CDOT),
+            "cdot aggregates {}".format(TEST_CDOT),
+            "cdot capacity {}".format(TEST_CDOT),
             "cdot inventory",
             "pure inventory",
             "solidfire capacity {}".format(TEST_SOLIDFIRE),
@@ -73,6 +76,10 @@ class TestWibot(unittest.TestCase):
             "solidfire inventory",
             "solidfire nodes {}".format(TEST_SOLIDFIRE),
             "solidfire utilization {}".format(TEST_SOLIDFIRE),
+            "7mode disks {}".format(TEST_7MODE),
+            "7mode capacity {}".format(TEST_7MODE),
+            "7mode aggregates {}".format(TEST_7MODE),
+            "7mode health {}".format(TEST_7MODE),
         ]
 
         for cmd in cmds:
