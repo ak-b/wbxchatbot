@@ -9,7 +9,7 @@ from webexteamssdk import WebexTeamsAPI
 from webexteamssdk.exceptions import ApiError
 from webexteamssdk.models.immutable import Message
 from wibot.rbac import get_role
-from wibot.cli.cli import admin, compute
+from wibot.cli.cli import admin, compute, customer
 from wibot import BOT_TOKEN, BOT_AUTH_HEADER, BOT_NAME
 
 LOGGER = logging.getLogger(__name__)
@@ -46,37 +46,41 @@ def process_message(message):
                 return
 
             email = message.personEmail
-            role = get_role(email)
-            if not role:
+            roles = get_role(email)
+            if not roles:
                 send_response(message.roomId, "Unauthorized user {}".format(email))
                 return
+            for role in roles:
+                LOGGER.debug("Using role: {}".format(role))
+                LOGGER.debug(message.text)
+                runner = CliRunner()
+                args = message.text.split()
+                result = "Unauthorized user {}".format(email)
+                if role == "storage":
+                    result = runner.invoke(admin, args if not args[0] == BOT_NAME else args[1:])
 
-            LOGGER.debug(message.text)
-            runner = CliRunner()
-            args = message.text.split()
-            result = "Unauthorized user {}".format(email)
-            if role == "storage":
-                result = runner.invoke(admin, args if not args[0] == BOT_NAME else args[1:])
+                if role == "compute":
+                    result = runner.invoke(compute, args if not args[0] == BOT_NAME else args[1:])
 
-            if role == "compute":
-                result = runner.invoke(compute, args if not args[0] == BOT_NAME else args[1:])
+                if role == "customer":
+                    result = runner.invoke(customer, args if not args[0] == BOT_NAME else args[1:])
 
-            LOGGER.debug("{} {}".format(result.output, result.exit_code))
+                LOGGER.debug("{} {}".format(result.output, result.exit_code))
 
-            #
-            # Webex Teams has a limit on message size, so we need to chunk the output
-            #
-            split_output = result.output.split('\n')
+                #
+                # Webex Teams has a limit on message size, so we need to chunk the output
+                #
+                split_output = result.output.split('\n')
 
-            buf = ''
-            for line in split_output:
-                buf = buf + '\n' + line
-                if len(buf) > MAX_MSG_SIZE:
+                buf = ''
+                for line in split_output:
+                    buf = buf + '\n' + line
+                    if len(buf) > MAX_MSG_SIZE:
+                        send_response(message.roomId, buf)
+                        buf = ''
+
+                if buf.strip():
                     send_response(message.roomId, buf)
-                    buf = ''
-
-            if buf.strip():
-                send_response(message.roomId, buf)
 
         except ApiError:
             LOGGER.error("Unable to fetch message {}".format(message_id, json_data))
