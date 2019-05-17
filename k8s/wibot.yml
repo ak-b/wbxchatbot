@@ -24,6 +24,16 @@ spec:
         - mountPath: "/opt/wibot"
           name: wibot-users-volume
         env:
+        - name: NETAPP_7MODE_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: wibot-secret
+              key: NETAPP_7MODE_USERNAME
+        - name: NETAPP_7MODE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: wibot-secret
+              key: NETAPP_7MODE_PASSWORD
         - name: NETAPP_USERNAME
           valueFrom:
             secretKeyRef:

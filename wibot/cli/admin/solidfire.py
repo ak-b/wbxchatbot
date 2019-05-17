@@ -48,4 +48,8 @@ def nodes(hostname):
 @click.argument('hostname', nargs=1)
 def health(hostname):
     solidfire = SolidFire(hostname, SOLIDFIRE_USERNAME, SOLIDFIRE_PASSWORD)
-    print_table(solidfire.health)
+    health = solidfire.health
+    if health:
+        print_table(solidfire.health)
+    else:
+        print("No alerts found")
