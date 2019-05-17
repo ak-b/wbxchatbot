@@ -30,4 +30,4 @@ def get_role(user_email):
 
     roles = users[user]
     LOGGER.debug('Got roles {}'.format(roles))
-    return next(iter(roles))
+    return roles
