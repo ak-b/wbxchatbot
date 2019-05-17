@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
       - name: wibot 
-        image: registry-qa.webex.com/iaas-storage/wibot0.1.2:latest
+        image: registry-qa.webex.com/iaas-storage/wibot0.1.3:latest
         volumeMounts:
         - mountPath: "/opt/wibot"
           name: wibot-users-volume
