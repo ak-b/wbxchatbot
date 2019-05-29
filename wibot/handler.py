@@ -57,13 +57,13 @@ def process_message(message):
                 args = message.text.split()
                 result = "Unauthorized user {}".format(email)
                 if role == "storage":
-                    result = runner.invoke(admin, args if not args[0] == BOT_NAME else args[1:])
+                    result = runner.invoke(admin, args[1:] if not args[0] == BOT_NAME else args[2:])
 
                 if role == "compute":
-                    result = runner.invoke(compute, args if not args[0] == BOT_NAME else args[1:])
+                    result = runner.invoke(compute, args[1:] if not args[0] == BOT_NAME else args[2:])
 
                 if role == "customer":
-                    result = runner.invoke(customer, args if not args[0] == BOT_NAME else args[1:])
+                    result = runner.invoke(customer, args[1:] if not args[0] == BOT_NAME else args[2:])
 
                 LOGGER.debug("{} {}".format(result.output, result.exit_code))
 

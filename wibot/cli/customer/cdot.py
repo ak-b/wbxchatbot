@@ -2,7 +2,7 @@ import click
 from wibot import NETAPP_USERNAME, NETAPP_PASSWORD
 from wistorage.core.netapp import FilerCDOT
 from wistorage.infradb.cdot import fetch_all_cdots, fetch_cdot_tenant_user_volume_info, \
-    fetch_cdot_volume_id_using_datalif, fetch_cdot_qtree_id_using_datalif
+    fetch_cdot_volume_id_using_datalif, fetch_cdot_qtree_id_using_datalif, fetch_cdot_volume_info, fetch_cdot_qtree_info
 from wiutil.pprint import print_table
 
 
