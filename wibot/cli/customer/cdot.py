@@ -24,9 +24,9 @@ def inventory():
 def tenant_usergroup_volumes(tenant_id, usergroup_id):
     """
     List volumes belonging to a tenant and user group \n
-    :param tenant_id: Tenant ID \n
-    :param usergroup_id: Usergroup ID \n
-    :return: List of volumes
+    tenant_id: Tenant ID \n
+    usergroup_id: Usergroup ID \n
+    List of volumes
     """
     volumes = fetch_cdot_tenant_user_volume_info(tenant_id, usergroup_id)
     vol_list = list(map(lambda vol: {'name': vol['name'], 'size': vol['size'],
@@ -52,7 +52,12 @@ def vol_tenant_usergroup_id(data_lif, vol_name):
         print("Volume id not found for datalif {} and vol name {}".format(data_lif, vol_name))
     else:
         vol_info = fetch_cdot_volume_info(vol_id)
+        cluster_name = vol_info['netapp_cdot_aggregate']['netapp_cdot_node']['netapp_cdot_cluster']['name']
         del vol_info['netapp_cdot_aggregate']
+        filer = FilerCDOT(cluster_name, NETAPP_USERNAME, NETAPP_PASSWORD)
+        volume = list(filter(lambda vol: vol.name == vol_name, filer.volumes))
+        vol_utilization = volume[0].utilization if volume else None
+        vol_info['utilization'] = round(vol_utilization,2)
         vol_info_list.append(vol_info)
         print_table(vol_info_list)
 

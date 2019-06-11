@@ -36,4 +36,4 @@ compute.add_command(compute_solidfire)
 customer.add_command(customer_cdot)
 
 if __name__ == "__main__":
-    sys.exit(admin())  # pragma: no cover
+    sys.exit()  # pragma: no cover
