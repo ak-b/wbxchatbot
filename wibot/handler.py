@@ -33,6 +33,17 @@ def send_response(roomId: str, response_text: str):
     LOGGER.debug(pprint.pprint(response.json()))
 
 
+def html_message_post(roomid: str, html: str):
+    """Post a message to a spark room"""
+    try:
+        json_data = {"roomId": roomid,
+                     "html": html}
+        response = requests.request("POST", API_URL, json=json_data, headers=BOT_AUTH_HEADER).json()
+        return response
+    except Exception as e:
+        LOGGER.error(str({'title': 'spark_message_post', 'exception': str(e)}))
+
+
 def process_message(message):
     json_data = json.loads(message)
     if 'data' in json_data and \

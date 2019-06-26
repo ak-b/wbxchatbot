@@ -35,7 +35,7 @@ setup(
     description="Webex IaaS bot",
     entry_points={
         'console_scripts': [
-            'wibot=wibot.cli.cli:compute',
+            'wibot=wibot.cli.cli:admin',
         ],
     },
     install_requires=requirements,
