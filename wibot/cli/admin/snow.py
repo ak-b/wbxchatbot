@@ -75,25 +75,12 @@ def incidents(timestamp):
     time_start = (time_end - datetime.timedelta(days=1)).replace(hour=0, minute=0)
 
     qb = (
-        pysnow.QueryBuilder()
-            .field('sys_created_on').between(time_start, time_end)
-            .OR()
-            .field('sys_updated_on').between(time_start, time_end)
+        pysnow.QueryBuilder().field('sys_created_on').between(time_start, time_end)
     )
 
     client = pysnow.Client(instance=e.instance, session=s)
     incident = client.resource(api_path='/table/incident')
     response = incident.get(query=qb)
-
-    state_switch = {
-        '1': 'Open',
-        '2': 'Known Error',
-        '3': 'Pending Change',
-        '4': 'Resolved',
-        '5': 'No idea here...',
-        '6': "Here's another one that idk",
-        '7': 'Closed'
-    }
 
     output = list()
     for entry in response.all():
