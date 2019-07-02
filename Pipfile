@@ -15,6 +15,7 @@ aniso8601 = "==3.0.2"
 wistorage = {index = "iaas",version = "==0.2.26"}
 wiutil = {index = "iaas",version = "*"}
 wiremedy = {index = "iaas",version = "*"}
+wisnow = {index = "iaas",version = "*"}
 appdirs = "==1.4.3"
 asn1crypto = "==0.24.0"
 attrs = "==18.2.0"

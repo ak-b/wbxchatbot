@@ -33,6 +33,17 @@ def send_response(roomId: str, response_text: str):
     LOGGER.debug(pprint.pprint(response.json()))
 
 
+def html_message_post(roomid: str, html: str):
+    """Post a message to a spark room"""
+    try:
+        json_data = {"roomId": roomid,
+                     "html": html}
+        response = requests.request("POST", API_URL, json=json_data, headers=BOT_AUTH_HEADER).json()
+        return response
+    except Exception as e:
+        LOGGER.error(str({'title': 'spark_message_post', 'exception': str(e)}))
+
+
 def process_message(message):
     json_data = json.loads(message)
     if 'data' in json_data and \
@@ -57,13 +68,13 @@ def process_message(message):
                 args = message.text.split()
                 result = "Unauthorized user {}".format(email)
                 if role == "storage":
-                    result = runner.invoke(admin, args if not args[0] == BOT_NAME else args[1:])
+                    result = runner.invoke(admin, args[1:] if not args[0] == BOT_NAME else args[2:])
 
                 if role == "compute":
-                    result = runner.invoke(compute, args if not args[0] == BOT_NAME else args[1:])
+                    result = runner.invoke(compute, args[1:] if not args[0] == BOT_NAME else args[2:])
 
                 if role == "customer":
-                    result = runner.invoke(customer, args if not args[0] == BOT_NAME else args[1:])
+                    result = runner.invoke(customer, args[1:] if not args[0] == BOT_NAME else args[2:])
 
                 LOGGER.debug("{} {}".format(result.output, result.exit_code))
 
