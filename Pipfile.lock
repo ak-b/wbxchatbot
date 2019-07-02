@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "580612f5849adb5fedc6126c94e6b56cf2b5c9c3bbaf944a2b8dfcd1423b89af"
+            "sha256": "fab770de2860ac9b58147ef6a1c5d134f62ef8778bcc106952e6fe51ed103f56"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -845,11 +845,18 @@
         },
         "wiremedy": {
             "hashes": [
-                "sha256:851e044e26c2bde418f8a4706d1bd9fd3db74763fe2d699c5e0289df74a24cb2",
-                "sha256:9fba1229403ef2f71ffb00c0b22eef295ea53fbd990ebe4547624c9b6ddf174c"
+                "sha256:6a966eb5d6d028063dc36a69d99ea131c3121c90057571fe395ad498736910e7"
             ],
             "index": "iaas",
-            "version": "==0.2.1"
+            "version": "==0.2.9"
+        },
+        "wisnow": {
+            "hashes": [
+                "sha256:801f1be6073f1a6bbb6188870033cf841dc45df7385dfa60a2f5b1cbb775aa33",
+                "sha256:f8c8550b48ec07fad392ab1e02d2d8457cd1cfd3da580910e59149f5ec45d9a8"
+            ],
+            "index": "iaas",
+            "version": "==0.1.3"
         },
         "wistorage": {
             "hashes": [
