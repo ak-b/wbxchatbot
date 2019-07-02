@@ -89,6 +89,20 @@ spec:
             secretKeyRef:
               name: wibot-secret
               key: INFRADB_GRAPHQL_URL
+        - name: SNOW_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: wibot-secret
+              key: SNOW_USERNAME
+        - name: SNOW_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: wibot-secret
+              key: SNOW_PASSWORD
+        - name: SNOW_INSTANCE 
+          value: ciscowebex
+        - name: SNOW_SAML_URL
+          value: https://cloudsso.cisco.com/idp/sts.wst
       volumes:
       - name: wibot-users-volume 
         configMap:
