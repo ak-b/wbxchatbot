@@ -88,6 +88,7 @@ Rx = "==1.6.1"
 Werkzeug = "==0.14.1"
 websocket-client = "*"
 webexteamssdk = "*"
+pysnow = "*"
 
 [requires]
 python_version = "3.6"
