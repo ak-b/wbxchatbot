@@ -80,6 +80,8 @@ class TestWibot(unittest.TestCase):
             "7mode capacity {}".format(TEST_7MODE),
             "7mode aggregates {}".format(TEST_7MODE),
             "7mode health {}".format(TEST_7MODE),
+            "snow incidents",
+            "snow changes"
         ]
 
         for cmd in cmds:
