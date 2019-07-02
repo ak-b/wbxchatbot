@@ -6,7 +6,13 @@ import pysnow
 import click
 import requests
 import datetime
+import os
 from wiutil.pprint import print_table
+
+DEFAULT_USERNAME = os.environ.get('SNOW_USERNAME')
+DEFAULT_PASSWORD = os.environ.get('SNOW_PASSWORD')
+DEFAULT_URL = os.environ.get('SNOW_SAML_URL')
+DEFAULT_INSTANCE = os.environ.get('SNOW_INSTANCE')
 
 
 @click.group(help='ServiceNow API commands')
@@ -17,7 +23,7 @@ def snow():
 @snow.command(help="Fetches closed changes from a specific date (YYYY-MM-DD. Default - today.")
 @click.argument('timestamp', required=False)
 def changes(timestamp):
-    e = wisnow.ESPToken()
+    e = wisnow.ESPToken(DEFAULT_INSTANCE, DEFAULT_URL, DEFAULT_USERNAME, DEFAULT_PASSWORD)
     token = e.get_token()
 
     s = requests.session()
@@ -58,7 +64,7 @@ def changes(timestamp):
 @snow.command(help="Fetches incidents for a specified date (YYYY-MM-DD). Default - today.")
 @click.argument('timestamp', required=False)
 def incidents(timestamp):
-    e = wisnow.ESPToken()
+    e = wisnow.ESPToken(DEFAULT_INSTANCE, DEFAULT_URL, DEFAULT_USERNAME, DEFAULT_PASSWORD)
     token = e.get_token()
 
     s = requests.session()
