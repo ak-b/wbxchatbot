@@ -25,3 +25,7 @@ To run the bot
 <pre>
 python -m wibot.wibot
 </pre>
+
+## Deployment
+
+wibot needs to be deployed in AMS CaaS in-order to get access to SNOW
