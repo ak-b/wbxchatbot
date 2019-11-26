@@ -1,8 +1,8 @@
 import click
-from wistorage.core.netapp import FilerCDOT
-from wistorage.infradb.cdot import *
-from wiutil.pprint import print_table
-from wiutil.pprint import bytes_to_str
+#from wistorage.core.netapp import FilerCDOT
+#from wistorage.infradb.cdot import *
+#from wiutil.pprint import print_table
+#from wiutil.pprint import bytes_to_str
 from wibot import NETAPP_USERNAME, NETAPP_PASSWORD
 
 
