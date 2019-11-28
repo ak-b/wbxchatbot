@@ -15,6 +15,7 @@ BOT_AUTH_HEADER = {
     'cache-control': "no-cache",
 }
 
+"""
 SOLIDFIRE_USERNAME = os.environ.get('SOLIDFIRE_USERNAME')
 SOLIDFIRE_PASSWORD = os.environ.get('SOLIDFIRE_PASSWORD')
 
@@ -26,3 +27,4 @@ PURE_PASSWORD = os.environ.get('PURE_PASSWORD')
 
 JIRA_USERNAME = os.environ.get('JIRA_USERNAME')
 JIRA_PASSWORD = os.environ.get('JIRA_PASSWORD')
+"""

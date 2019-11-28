@@ -9,7 +9,9 @@ from webexteamssdk import WebexTeamsAPI
 from webexteamssdk.exceptions import ApiError
 from webexteamssdk.models.immutable import Message
 from wibot.rbac import get_role
-from wibot.cli.cli import admin, compute, customer
+#Akansha, commenting storage functionality
+from wibot.cli.cli import firewall
+#from wibot.cli.cli import admin, compute, customer
 from wibot import BOT_TOKEN, BOT_AUTH_HEADER, BOT_NAME
 
 LOGGER = logging.getLogger(__name__)
@@ -75,6 +77,9 @@ def process_message(message):
 
                 if role == "customer":
                     result = runner.invoke(customer, args[1:] if not args[0] == BOT_NAME else args[2:])
+
+                if role == "firewall":
+                    result = runner.invoke(firewall, args[1:] if not args[0] == BOT_NAME else args[2:])
 
                 LOGGER.debug("{} {}".format(result.output, result.exit_code))
 

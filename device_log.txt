@@ -1,0 +1,5 @@
+o system
+ams01-wxp00-asa02/pri/act# changeto context Connect
+ams01-wxp00-asa02/Connect/pri/act# show cpu
+CPU utilization for 5 seconds = 0.1%; 1 minute: 0.1%; 5 minutes: 0.1%
+ams01-wxp00-asa02/Connect/pri/act# 

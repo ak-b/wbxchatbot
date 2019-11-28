@@ -3,8 +3,8 @@ import paramiko
 import time
 import re
 import socket
-
 from paramiko import SSHClient
+from wibot.cli.firewall.post_process import cpu_process
 
 #Convert USERNAME, PASSWORD AND ENABLE_PASSWORD to environment variables
 USERNAME = 'Marvinh'
@@ -40,14 +40,16 @@ def run_show(FW, context, type):
         #print(temp)
         chan.send("changeto context %s\n" % context)
         time.sleep(5)
+        temp = chan.recv(1024).decode('ascii')
+        time.sleep(1)
         if type == 'CPU':
         	chan.send("show cpu\n")
         elif type == 'MEMORY':
         	chan.send('show memory\n')
         elif type == 'EMBCONN':
-        	chan.send('show running-config policy-map\n')
+        	chan.send('show running-config policy-map\n') 
         time.sleep(5)
-        temp = chan.recv(1024).decode('ascii')
+        temp = chan.recv(1024).decode('ascii')      
         ssh_client.close()
         print(temp)
 

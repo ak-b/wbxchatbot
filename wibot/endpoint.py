@@ -1,4 +1,5 @@
 import json
+import pyapp
 import logging
 import socket
 from typing import List
@@ -55,6 +56,8 @@ class SparkEndpoint:
         LOGGER.debug('Getting all devices')
 
         response = requests.get(SPARK_DEVICES_URL, headers=BOT_AUTH_HEADER)
+        print(response.status_code)
+        print(response)
 
         if response.status_code == 404:
             return list()
@@ -67,6 +70,7 @@ class SparkEndpoint:
 
     def delete_all_existing_devices(self):
         LOGGER.debug('Deleting all existing endpoints')
+        #print(self.get_all_devices())
         list(map(lambda device: requests.request("DELETE", device['url'], headers=BOT_AUTH_HEADER),
                  self.get_all_devices()))
 
