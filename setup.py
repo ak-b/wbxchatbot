@@ -16,10 +16,10 @@ requirements = ['Click>=6.0', ]
 setup_requirements = [ ]
 
 test_requirements = [ ]
-
+# reusing Vishal's SETUP FILE
 setup(
-    author="Vishal Patil",
-    author_email='vpatil3@cisco.com',
+    author="Akansha Bansal",
+    author_email='akbansal@cisco.com',
     classifiers=[
         'Development Status :: 2 - Pre-Alpha',
         'Intended Audience :: Developers',
@@ -47,7 +47,7 @@ setup(
     setup_requires=setup_requirements,
     test_suite='tests',
     tests_require=test_requirements,
-    url='https://github.com/vpatil3/wibot',
+    url='https://cto-github.cisco.com/akbansal/Rbot',
     version='0.1.10',
     zip_safe=False,
 )
