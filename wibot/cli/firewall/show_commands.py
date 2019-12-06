@@ -1,4 +1,5 @@
 import sys
+import os
 import paramiko
 import time
 import re
@@ -6,10 +7,9 @@ import socket
 from paramiko import SSHClient
 from wibot.cli.firewall.post_process import cpu_process
 
-#Convert USERNAME, PASSWORD AND ENABLE_PASSWORD to environment variables
-USERNAME = 'Marvinh'
-PASSWORD = 'Tested@2020'
-ENABLE_PASSWORD = 'T!m32G0Br0'
+BOT_USERNAME = os.environ.get('BOT_USERNAME')
+BOT_PASSWORD = os.environ.get('BOT_PASSWORD')
+ENABLE_PASSWORD = os.environ.get('ENABLE_PASSWORD')
 
 try:
     ssh_client: SSHClient = paramiko.SSHClient()
@@ -19,7 +19,7 @@ except Exception as e1:
 
 def run_show(FW, context, type):
     try:
-        ssh_client.connect(hostname=FW, username= USERNAME, password= PASSWORD,\
+        ssh_client.connect(hostname=FW, username= BOT_USERNAME, password= BOT_PASSWORD,\
             allow_agent=False, look_for_keys=False, timeout=10)
         chan = ssh_client.invoke_shell()
         time.sleep(1)

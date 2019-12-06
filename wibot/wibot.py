@@ -2,6 +2,7 @@
 
 """Main module."""
 import logging
+import os
 
 from wibot.endpoint import SparkEndpoint
 from wibot.handler import MessageHandler
@@ -16,8 +17,10 @@ logging.getLogger('wibot.handler').setLevel(logging.DEBUG)
 logging.getLogger('wibot.rbac').addHandler(logging.StreamHandler())
 logging.getLogger('wibot.rbac').setLevel(logging.DEBUG)
 
+
 if __name__ == "__main__":
-    rbac_init('/Users/akbansal/wibot/k8s/users.properties')
+    filepath = '/app/users.properties'
+    rbac_init(filepath)
     spark_endpoint = SparkEndpoint()
     spark_endpoint.setup()
     
