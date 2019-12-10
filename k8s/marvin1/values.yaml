@@ -6,7 +6,7 @@ replicaCount: 1
 
 image:
   repository: registry-qa.webex.com/marvin
-  tag: test3
+  tag: test6
   pullPolicy: IfNotPresent
 
 imagePullSecrets: []

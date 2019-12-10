@@ -19,7 +19,7 @@ API_URL = "https://api.ciscospark.com/v1/messages"
 MAX_MSG_SIZE = 4096
 
 api: WebexTeamsAPI = None
-message_processor = ThreadPoolExecutor(max_workers=4)
+message_processor = ThreadPoolExecutor(max_workers=1)
 
 
 def send_response(roomId: str, response_text: str):
