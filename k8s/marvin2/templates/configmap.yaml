@@ -1,0 +1,26 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: marvin-config
+data:
+  users.properties: |
+    [users]
+    storage={{ .Values.storage }}
+    compute={{ .Values.compute}}
+    customer={{ .Values.customer}}    
+    firewall={{ .Values.firewall}} 
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:  
+  name: marvin-secrets
+data:
+  application.properties: |
+    BOT_NAME:""
+    BOT_PASSWORD:""
+    BOT_TOKEN:""
+    BOT_USERNAME:""
+    ENABLE_PASSWORD:""
+

@@ -7,8 +7,13 @@ __author__ = """Vishal Patil"""
 __email__ = 'vpatil3@cisco.com'
 __version__ = '0.1.0'
 
-BOT_NAME = os.environ.get('BOT_NAME')
-BOT_TOKEN = os.environ.get('BOT_TOKEN')
+# editing package used by wibot : akbansal
+from wibot.utils import get_config
+
+configs = get_config()
+BOT_NAME = configs['BOT_NAME']
+BOT_TOKEN = configs['BOT_TOKEN']
+
 BOT_AUTH_HEADER = {
     'authorization': "Bearer {}".format(BOT_TOKEN),
     'content-type': "application/json",

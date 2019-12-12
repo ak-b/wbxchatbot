@@ -15,6 +15,9 @@ spec:
       labels:
         app.kubernetes.io/name: {{ include "marvin2.name" . }}
         app.kubernetes.io/instance: {{ .Release.Name }}
+      annotations:
+        pod.boostport.com/vault-approle: iaas-marvin
+        pod.boostport.com/vault-init-container: get-vault-token        
     spec:
     {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
@@ -36,8 +39,35 @@ spec:
             httpGet:
               path: /
               port: http
+          volumeMounts:
+          - name: marvin-config
+            mountPath: /opt/wibot/
+          - name: marvin-secrets
+            mountPath: /app/
+          - name: vault-token
+            mountPath: /var/run/secrets/boostport.com   
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+      initContainers:
+        - name: get-vault-token
+          image: "{{ .Values.initVaultImage.repository }}:{{ .Values.initVaultImage.tag }}"
+          imagePullPolicy: {{.Values.initVaultImage.pullPolicy}}
+          env:
+            - name: VAULT_ROLE_ID
+              value: {{ .Values.vault.roleId }}
+          volumeMounts:
+            - name: vault-token
+              mountPath: /var/run/secrets/boostport.com
+
+      volumes:
+        - name: marvin-config
+          configMap:
+            name: marvin-config
+        - name: marvin-secrets
+          configMap:
+            name: marvin-secrets
+        - name: vault-token
+          emptyDir: {}            
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

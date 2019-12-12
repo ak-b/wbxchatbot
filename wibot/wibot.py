@@ -19,11 +19,9 @@ logging.getLogger('wibot.rbac').setLevel(logging.DEBUG)
 
 
 if __name__ == "__main__":
-    filepath = '/app/users.properties'
+    filepath = '/opt/wibot/users.properties'
     rbac_init(filepath)
     spark_endpoint = SparkEndpoint()
     spark_endpoint.setup()
-    
-
     message_handler = MessageHandler(spark_endpoint.get_websocket_url())
     message_handler.run_forever()

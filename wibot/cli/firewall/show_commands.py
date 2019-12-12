@@ -5,11 +5,14 @@ import time
 import re
 import socket
 from paramiko import SSHClient
-from wibot.cli.firewall.post_process import cpu_process
+#from wibot.cli.firewall.post_process import cpu_process
 
-BOT_USERNAME = os.environ.get('BOT_USERNAME')
-BOT_PASSWORD = os.environ.get('BOT_PASSWORD')
-ENABLE_PASSWORD = os.environ.get('ENABLE_PASSWORD')
+from wibot.utils import get_config 
+
+configs = get_config()
+BOT_USERNAME = configs['BOT_USERNAME']
+BOT_PASSWORD = configs['BOT_PASSWORD']
+ENABLE_PASSWORD = configs['ENABLE_PASSWORD']
 
 try:
     ssh_client: SSHClient = paramiko.SSHClient()

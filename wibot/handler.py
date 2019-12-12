@@ -9,10 +9,14 @@ from webexteamssdk import WebexTeamsAPI
 from webexteamssdk.exceptions import ApiError
 from webexteamssdk.models.immutable import Message
 from wibot.rbac import get_role
-#Akansha, commenting storage functionality
 from wibot.cli.cli import firewall
-#from wibot.cli.cli import admin, compute, customer
-from wibot import BOT_TOKEN, BOT_AUTH_HEADER, BOT_NAME
+from wibot.utils import get_config
+from wibot import BOT_AUTH_HEADER
+
+configs = get_config()
+
+BOT_NAME = configs['BOT_NAME']
+BOT_TOKEN = configs['BOT_TOKEN']
 
 LOGGER = logging.getLogger(__name__)
 API_URL = "https://api.ciscospark.com/v1/messages"

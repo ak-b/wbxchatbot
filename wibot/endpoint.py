@@ -6,7 +6,14 @@ from typing import List
 
 import requests
 
-from wibot import BOT_NAME, BOT_AUTH_HEADER
+from wibot.utils import get_config
+
+from wibot import BOT_AUTH_HEADER
+
+configs = get_config()
+
+BOT_NAME = configs['BOT_NAME']
+print(BOT_NAME)
 
 LOGGER = logging.getLogger(__name__)
 

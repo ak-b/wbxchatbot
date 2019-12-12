@@ -32,10 +32,10 @@ setup(
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
     ],
-    description="Webex IaaS bot",
+    description="Marvin",
     entry_points={
         'console_scripts': [
-            'wibot=wibot.cli.cli:admin',
+            'wibot=wibot.cli.cli:firewall',
         ],
     },
     install_requires=requirements,
@@ -47,7 +47,6 @@ setup(
     setup_requires=setup_requirements,
     test_suite='tests',
     tests_require=test_requirements,
-    url='https://cto-github.cisco.com/akbansal/Rbot',
-    version='0.1.10',
+    version='0.1.11',
     zip_safe=False,
 )
