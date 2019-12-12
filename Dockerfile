@@ -1,19 +1,13 @@
 FROM centos/python-36-centos7
 
-USER root
+COPY ./requirements.txt /bot/requirements.txt
 
-COPY ./requirements.txt /app/requirements.txt
-
-WORKDIR /app
+WORKDIR /bot
 
 RUN pip install -r requirements.txt
 
-COPY . /app
-
-RUN python setup.py install
+COPY . /bot
 
 CMD mkdir -p /opt/wibot
 
-ENTRYPOINT [ "python" ]
-
-CMD [ "-m", "wibot.wibot" ]
+CMD ["sleep", "36000"]
