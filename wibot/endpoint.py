@@ -13,7 +13,6 @@ from wibot import BOT_AUTH_HEADER
 configs = get_config()
 
 BOT_NAME = configs['BOT_NAME']
-print(BOT_NAME)
 
 LOGGER = logging.getLogger(__name__)
 

@@ -10,4 +10,6 @@ COPY . /bot
 
 CMD mkdir -p /opt/wibot
 
-CMD ["sleep", "36000"]
+ENTRYPOINT [ "python" ]
+
+CMD [ "-m", "wibot.wibot" ]
