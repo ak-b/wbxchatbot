@@ -6,7 +6,7 @@ replicaCount: 1
 
 image:
   repository: registry-qa.webex.com/marvin
-  tag: test70
+  tag: prod2
   pullPolicy: IfNotPresent
 
 storage: "vpatil3,haiyji,garywils,bkota,gmada,vakatta,vkundurt,yingjisu,arvinsi3,joedanfo,tocao,festeban,plockhar"
@@ -19,7 +19,7 @@ initVaultImage:
   tag: 0.0.1
   pullPolicy: IfNotPresent
 vault:
-  roleId: "13f5459f-b57b-6c3c-c1a5-656b0a750e85"
+  roleId: "c25dcb46-ecaf-1ebf-e6aa-5dff75f5fe77"
 
 imagePullSecrets: []
 nameOverride: ""
