@@ -10,6 +10,8 @@ from wibot.utils import get_config
 
 from wibot import BOT_AUTH_HEADER
 
+#from wibot import BOT_NAME, BOT_AUTH_HEADER
+
 configs = get_config()
 
 BOT_NAME = configs['BOT_NAME']

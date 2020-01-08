@@ -20,6 +20,7 @@ logging.getLogger('wibot.rbac').setLevel(logging.DEBUG)
 
 if __name__ == "__main__":
     filepath = '/opt/wibot/users.properties'
+    #filepath = '/Users/akbansal/Rbot/k8s/users.properties'
     rbac_init(filepath)
     spark_endpoint = SparkEndpoint()
     spark_endpoint.setup()

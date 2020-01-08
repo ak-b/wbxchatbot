@@ -11,6 +11,7 @@ import sys
 #from wibot.cli.customer.cdot import cdot as customer_cdot
 #from wibot.cli.admin.snow import snow as admin_snow
 from wibot.cli.firewall.health import health as firewall_health
+from wibot.cli.firewall.aclsearch import aclsearch as firewall_aclsearch
 
 @click.group(name='admin', help="Storage team commands")
 def admin(args=None):
@@ -42,6 +43,7 @@ def firewall(args=None):
 
 
 firewall.add_command(firewall_health)
+firewall.add_command(firewall_aclsearch)
 
 if __name__ == "__main__":
     sys.exit()  # pragma: no cover

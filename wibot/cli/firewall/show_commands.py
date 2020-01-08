@@ -9,9 +9,13 @@ from paramiko import SSHClient
 
 from wibot.utils import get_config 
 
+#BOT_USERNAME = os.environ.get('BOT_USERNAME')
+#BOT_PASSWORD = os.environ.get('BOT_PASSWORD')
+#ENABLE_PASSWORD = os.environ.get('ENABLE_PASSWORD')
+
 configs = get_config()
 BOT_USERNAME = configs['BOT_USERNAME']
-BOT_PASSWORD = configs['BOT_PASSWORD']
+BOT_USERNAME = configs['BOT_PASSWORD']
 ENABLE_PASSWORD = configs['ENABLE_PASSWORD']
 
 

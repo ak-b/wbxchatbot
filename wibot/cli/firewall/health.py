@@ -1,7 +1,7 @@
 import click
 from wibot.cli.firewall.show_commands import run_show as show
 
-@click.group(chain=True)
+@click.group(help='FW healthchecks',chain=True)
 def health():
 	pass
 

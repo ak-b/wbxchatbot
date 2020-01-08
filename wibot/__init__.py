@@ -14,6 +14,9 @@ configs = get_config()
 BOT_NAME = configs['BOT_NAME']
 BOT_TOKEN = configs['BOT_TOKEN']
 
+#BOT_NAME = os.environ.get('BOT_NAME')
+#BOT_TOKEN = os.environ.get('BOT_TOKEN')
+
 BOT_AUTH_HEADER = {
     'authorization': "Bearer {}".format(BOT_TOKEN),
     'content-type': "application/json",
