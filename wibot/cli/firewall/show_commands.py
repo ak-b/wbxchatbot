@@ -15,7 +15,7 @@ from wibot.utils import get_config
 
 configs = get_config()
 BOT_USERNAME = configs['BOT_USERNAME']
-BOT_USERNAME = configs['BOT_PASSWORD']
+BOT_PASSWORD = configs['BOT_PASSWORD']
 ENABLE_PASSWORD = configs['ENABLE_PASSWORD']
 
 
