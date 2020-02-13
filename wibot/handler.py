@@ -23,6 +23,7 @@ API_URL = "https://api.ciscospark.com/v1/messages"
 MAX_MSG_SIZE = 4096
 
 api: WebexTeamsAPI = None
+#changed max#workers to 1 to avoid message swap between concurrent calls
 message_processor = ThreadPoolExecutor(max_workers=1)
 
 
@@ -83,6 +84,19 @@ def process_message(message):
                     result = runner.invoke(customer, args[1:] if not args[0] == BOT_NAME else args[2:])
 
                 if role == "firewall":
+                    if args[0] == BOT_NAME and args[1] == 'firewall' and args[2] == 'captures' and args[3] == 'asa':
+                        greeting = "Please wait for ~30min-40min, scanning all FWs and contexts..."
+                        send_response(message.roomId, greeting)
+                    elif args[0] == 'firewall' and args[1] == 'captures' and args [2] == 'asa':
+                        greeting = "Please wait for ~30min-40min, scanning all FWs and contexts..."
+                        send_response(message.roomId, greeting)
+                    elif args[0] == BOT_NAME and args[1] == 'firewall' and args[2] == 'captures' and args[3] == 'ftd':
+                        greeting = "Please wait for a couple of minutes, scanning all FTDs ..."
+                        send_response(message.roomId, greeting)
+                    elif args[0] == 'firewall' and args[1] == 'captures' and args [2] == 'ftd':
+                        greeting = "Please wait for a couple of minutes, scanning all FTDs ..."
+                        send_response(message.roomId, greeting)
+                    
                     result = runner.invoke(firewall, args[1:] if not args[0] == BOT_NAME else args[2:])
 
                 LOGGER.debug("{} {}".format(result.output, result.exit_code))

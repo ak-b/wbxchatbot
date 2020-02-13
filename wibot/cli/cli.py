@@ -13,6 +13,7 @@ import sys
 from wibot.cli.firewall.health import health as firewall_health
 from wibot.cli.firewall.aclsearch import aclsearch as firewall_aclsearch
 from wibot.cli.firewall.cpualert import cpualert as firewall_cpualert
+from wibot.cli.firewall.captures import captures as firewall_captures
 
 @click.group(name='admin', help="Storage team commands")
 def admin(args=None):
@@ -28,8 +29,12 @@ def compute(args=None):
 def customer(args=None):
     pass
 
-@click.group(name='firewall', help="Firewall team commands")
+@click.group(name='firewall')
 def firewall(args=None):
+	"""
+	For detailed usage instructions 
+	Please refer: https://wiki.cisco.com/display/AS13445/Usage+Guide
+	"""
 	pass
 
 #admin.add_command(admin_snow)
@@ -46,6 +51,7 @@ def firewall(args=None):
 firewall.add_command(firewall_health)
 firewall.add_command(firewall_aclsearch)
 firewall.add_command(firewall_cpualert)
+firewall.add_command(firewall_captures)
 
 if __name__ == "__main__":
     sys.exit()  # pragma: no cover
