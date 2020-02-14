@@ -13,7 +13,7 @@ def captures():
 def asa():
 	#devices = ['ams01-wxp00-asa02a.webex.com']
 	devices = get_inventory()
-	print(devices)
+	#print(devices)
 	for hosts in devices:
 		check_caps(hosts)
 	filedir = os.path.dirname(__file__)
