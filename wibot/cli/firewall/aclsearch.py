@@ -24,7 +24,7 @@ def lookup(srcip,destip,port,protocol):
 	    "Content-Type": "application/json",
         "Authorization": "Bearer {}".format(token),
 	}
-	search_url='http://10.252.252.247/fwsearchproxy?srcip=%s&dstip=%s&dstport=%s' %(srcip,destip,port) 
+	search_url='http://10.252.252.247/fwsearchproxy/fwsearchproxy?srcip=%s&dstip=%s&dstport=%s' %(srcip,destip,port) 
 	#print(search_url)
 	response= requests.get(search_url, headers= headers)
 	#print(response)
