@@ -18,7 +18,6 @@ BOT_USERNAME = configs['BOT_USERNAME']
 BOT_PASSWORD = configs['BOT_PASSWORD']
 ENABLE_PASSWORD = configs['ENABLE_PASSWORD']
 
-
 try:
     ssh_client: SSHClient = paramiko.SSHClient()
     ssh_client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
@@ -29,6 +28,8 @@ def run_show(FW, context, type):
     try:
         ssh_client.connect(hostname=FW, username= BOT_USERNAME, password= BOT_PASSWORD,\
             allow_agent=False, look_for_keys=False, timeout=10)
+        #print(BOT_USERNAME)
+        #print(BOT_PASSWORD)
         chan = ssh_client.invoke_shell()
         time.sleep(1)
         temp = chan.recv(1024).decode('ascii')
@@ -63,10 +64,12 @@ def run_show(FW, context, type):
         ssh_client.close()
         print(temp)
 
+
     except paramiko.ssh_exception.AuthenticationException:
         print("Authentication Failure")
     except Exception as e:
         print("exception" + str(e))
+
 
 
 
