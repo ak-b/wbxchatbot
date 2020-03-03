@@ -6,13 +6,13 @@ replicaCount: 1
 
 image:
   repository: registry-qa.webex.com/marvin
-  tag: prod30
+  tag: prod31
   pullPolicy: IfNotPresent
 
 storage: "vpatil3,haiyji,garywils,bkota,gmada,vakatta,vkundurt,yingjisu,arvinsi3,joedanfo,tocao,festeban,plockhar"
 compute: "nitreddy,cdiloren,egorelic,matdavid,papersal,ksheets"
 customer: "xuqyuan,mollys,ksheik"
-firewall: "akbansal,cmcelhin,brklaers,kanhamil,stevidav,gstyx,nehaja,sopuliu"
+firewall: "akbansal,cmcelhin,brklaers,kanhamil,stevidav,gstyx,nehaja,sopuliu,amulasa"
 
 initVaultImage:
   repository: registry-qa.webex.com/oke/kubernetes-vault-init
