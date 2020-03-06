@@ -28,10 +28,7 @@ def run_show(FW, context, type):
     try:
         ssh_client.connect(hostname=FW, username= BOT_USERNAME, password= BOT_PASSWORD,\
             allow_agent=False, look_for_keys=False, timeout=10)
-        #print(BOT_USERNAME)
-        #print(BOT_PASSWORD)
         chan = ssh_client.invoke_shell()
-        time.sleep(1)
         temp = chan.recv(1024).decode('ascii')
         #print(temp)
         chan.send("enable\n")
@@ -41,9 +38,6 @@ def run_show(FW, context, type):
         if re.search("Password:", temp):
             # print("***")
             chan.send("%s\n" % ENABLE_PASSWORD)
-        else:
-        	sys.exit(1)
-
         chan.send("terminal page 0\n")
         chan.send("changeto system\n")
         time.sleep(1)
