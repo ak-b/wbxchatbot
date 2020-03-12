@@ -48,15 +48,26 @@ def run_show(FW, context, type):
         temp = chan.recv(1024).decode('ascii')
         time.sleep(1)
         if type == 'CPU':
-        	chan.send("show cpu\n")
+            if re.search("asacl",FW):
+                chan.send('cluster exec show cpu usage\n')
+            else:
+                chan.send('show cpu\n')
         elif type == 'MEMORY':
-        	chan.send('show memory\n')
+            if re.search("asacl",FW):
+                chan.send('cluster exec show memory\n')
+            else:
+                chan.send('show memory\n')
         elif type == 'EMBCONN':
-        	chan.send('show running-config policy-map\n') 
+            if re.search("asacl",FW):
+                chan.send('cluster exec show service-policy\n')
+            else:
+                chan.send('show running-config policy-map\n') 
         time.sleep(5)
-        temp = chan.recv(1024).decode('ascii')      
+        while chan.recv_ready():
+            time.sleep(1)
+            temp = chan.recv(1024).decode('ascii')
+            print(temp)
         ssh_client.close()
-        print(temp)
 
 
     except paramiko.ssh_exception.AuthenticationException:
