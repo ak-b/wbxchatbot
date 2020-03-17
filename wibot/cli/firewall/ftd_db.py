@@ -1,9 +1,5 @@
 ftd_devices = [
 {
-	'name': "IAD02-WXP00-C01FW01a-Core",
-	'ip_address': "10.240.242.244",
-},
-{
 	'name': "IAD02-WXP00-C01FW03a-Beta",
 	'ip_address': "10.240.242.248",
 },
