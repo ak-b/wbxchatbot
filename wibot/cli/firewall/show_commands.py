@@ -48,20 +48,20 @@ def run_show(FW, context, type):
         temp = chan.recv(1024).decode('ascii')
         time.sleep(1)
         if type == 'CPU':
-            if re.search("asacl",FW):
+            if re.search("asacl",FW.lower()):
                 chan.send('cluster exec show cpu usage\n')
             else:
                 chan.send('show cpu\n')
         elif type == 'MEMORY':
-            if re.search("asacl",FW):
+            if re.search("asacl",FW.lower()):
                 chan.send('cluster exec show memory\n')
             else:
                 chan.send('show memory\n')
         elif type == 'EMBCONN':
-            if re.search("asacl",FW):
+            if re.search("asacl",FW.lower()):
                 chan.send('cluster exec show service-policy\n')
             else:
-                chan.send('show running-config policy-map\n') 
+                chan.send('show service-policy\n') 
         time.sleep(5)
         while chan.recv_ready():
             time.sleep(1)
