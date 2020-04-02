@@ -15,6 +15,7 @@ from wibot.cli.firewall.aclsearch import aclsearch as firewall_aclsearch
 from wibot.cli.firewall.cpualert import cpualert as firewall_cpualert
 from wibot.cli.firewall.captures import captures as firewall_captures
 from wibot.cli.firewall.contexts import contexts as firewall_contexts
+from wibot.cli.firewall.intbuffer import intbuffer as firewall_intbuffer
 
 @click.group(name='admin', help="Storage team commands")
 def admin(args=None):
@@ -50,6 +51,7 @@ def firewall(args=None):
 
 
 firewall.add_command(firewall_health)
+firewall.add_command(firewall_intbuffer)
 firewall.add_command(firewall_contexts)
 firewall.add_command(firewall_aclsearch)
 firewall.add_command(firewall_cpualert)
