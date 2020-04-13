@@ -38,6 +38,8 @@ spec:
             mountPath: /app/
           - name: vault-token
             mountPath: /var/run/secrets/boostport.com   
+          - name: log-files
+            mountPath: /logs/
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       initContainers:
@@ -59,7 +61,9 @@ spec:
           configMap:
             name: marvin-secrets
         - name: vault-token
-          emptyDir: {}            
+          emptyDir: {}        
+        - name: log-files
+          emptyDir: {}    
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

@@ -1,7 +1,9 @@
 import json
+import os
 import logging
 from concurrent.futures import ThreadPoolExecutor
 import requests
+from requests_toolbelt.multipart.encoder import MultipartEncoder
 import pprint
 import websocket
 from click.testing import CliRunner
@@ -37,6 +39,26 @@ def send_response(roomId: str, response_text: str):
         'markdown': markdown,
     }
     response = requests.request('POST', API_URL, json=json_data, headers=BOT_AUTH_HEADER)
+    LOGGER.debug(pprint.pprint(response.json()))
+
+def attachment_post(roomId : str, logtype: str):
+    log_file_dir = '/logs/'
+    print(log_file_dir)
+    if logtype == 'embaudit':
+        log_file_name = 'EmbConScan_log.txt'
+    log_filepath = os.path.join(log_file_dir,log_file_name)
+    print(log_filepath)
+    m = MultipartEncoder({'roomId': roomId,
+                          'text': 'Scan Results Attached',
+                          'files': (log_filepath, open(log_filepath,'rb'),
+                          'image/png')})
+
+    headers={'Authorization': 'Bearer {}'.format(BOT_TOKEN),
+    'Content-Type': m.content_type}
+
+    response = requests.request('POST', API_URL, data=m, headers=headers)
+    print(response)
+
     LOGGER.debug(pprint.pprint(response.json()))
 
 
@@ -96,25 +118,65 @@ def process_message(message):
                     elif args[0] == 'firewall' and args[1] == 'captures' and args [2] == 'ftd':
                         greeting = "Please wait for a couple of minutes, scanning all FTDs ..."
                         send_response(message.roomId, greeting)
-                    
-                    result = runner.invoke(firewall, args[1:] if not args[0] == BOT_NAME else args[2:])
+ 
+                    elif args[0] == BOT_NAME and args[1] == 'firewall' and args[2] == 'embaudit':
+                        logtype=args[2]
+                        greeting = "Please wait for ~1 hr, scanning EMBRYONIC Connection Settings on all ASAs"
+                        send_response(message.roomId, greeting)
+                        result = runner.invoke(firewall, args[1:] if not args[0] == BOT_NAME else args[2:])
+                        LOGGER.debug("Result Output {} Result ExitCode {}".format(result.output, result.exit_code))                        
+                        # Webex Teams has a limit on message size, so we need to chunk the output
+                        #
+                        split_output = result.output.split('\n')
 
-                LOGGER.debug("{} {}".format(result.output, result.exit_code))
-
-                #
-                # Webex Teams has a limit on message size, so we need to chunk the output
-                #
-                split_output = result.output.split('\n')
-
-                buf = ''
-                for line in split_output:
-                    buf = buf + '\n' + line
-                    if len(buf) > MAX_MSG_SIZE:
-                        send_response(message.roomId, buf)
                         buf = ''
+                        for line in split_output:
+                            buf = buf + '\n' + line
+                            if len(buf) > MAX_MSG_SIZE:
+                                send_response(message.roomId, buf)
+                                buf = ''
 
-                if buf.strip():
-                    send_response(message.roomId, buf)
+                        if buf.strip():
+                            send_response(message.roomId, buf)
+                        attachment_post(message.roomId,logtype)
+
+                    elif args[0] == 'firewall' and args[1] == 'embaudit':
+                        logtype=args[1]
+                        greeting = "Please wait for ~1 hr, scanning EMBRYONIC Connection Settings on all ASAs"
+                        send_response(message.roomId, greeting)
+                        result = runner.invoke(firewall, args[1:] if not args[0] == BOT_NAME else args[2:])
+                        LOGGER.debug("Result Output {} Result ExitCode {}".format(result.output, result.exit_code))
+
+                        # Webex Teams has a limit on message size, so we need to chunk the output
+                        #
+                        split_output = result.output.split('\n')
+                        buf = ''
+                        for line in split_output:
+                            buf = buf + '\n' + line
+                            if len(buf) > MAX_MSG_SIZE:
+                                send_response(message.roomId, buf)
+                                buf = ''
+
+                        if buf.strip():
+                            send_response(message.roomId, buf)   
+                        attachment_post(message.roomId,logtype)
+
+                    else:
+                        result = runner.invoke(firewall, args[1:] if not args[0] == BOT_NAME else args[2:])
+                        LOGGER.debug("{} {}".format(result.output, result.exit_code))
+                         #
+                         # Webex Teams has a limit on message size, so we need to chunk the output
+                         #                 
+                        split_output = result.output.split('\n')
+                        buf = ''
+                        for line in split_output:
+                            buf = buf + '\n' + line
+                            if len(buf) > MAX_MSG_SIZE:
+                                send_response(message.roomId, buf)
+                                buf = ''
+
+                        if buf.strip():
+                            send_response(message.roomId, buf)
 
         except ApiError:
             LOGGER.error("Unable to fetch message {}".format(message_id, json_data))
