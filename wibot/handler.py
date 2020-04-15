@@ -109,15 +109,69 @@ def process_message(message):
                     if args[0] == BOT_NAME and args[1] == 'firewall' and args[2] == 'captures' and args[3] == 'asa':
                         greeting = "Please wait for ~30min-40min, scanning all FWs and contexts..."
                         send_response(message.roomId, greeting)
+                        result = runner.invoke(firewall, args[1:] if not args[0] == BOT_NAME else args[2:])
+                        LOGGER.debug("Result Output {} Result ExitCode {}".format(result.output, result.exit_code))                        
+                        # Webex Teams has a limit on message size, so we need to chunk the output
+                        #
+                        split_output = result.output.split('\n')
+                        buf = ''
+                        for line in split_output:
+                            buf = buf + '\n' + line
+                            if len(buf) > MAX_MSG_SIZE:
+                                send_response(message.roomId, buf)
+                                buf = ''
+                        if buf.strip():
+                            send_response(message.roomId, buf)
+
                     elif args[0] == 'firewall' and args[1] == 'captures' and args [2] == 'asa':
                         greeting = "Please wait for ~30min-40min, scanning all FWs and contexts..."
                         send_response(message.roomId, greeting)
+                        result = runner.invoke(firewall, args[1:] if not args[0] == BOT_NAME else args[2:])
+                        LOGGER.debug("Result Output {} Result ExitCode {}".format(result.output, result.exit_code))                        
+                        # Webex Teams has a limit on message size, so we need to chunk the output
+                        #
+                        split_output = result.output.split('\n')
+                        buf = ''
+                        for line in split_output:
+                            buf = buf + '\n' + line
+                            if len(buf) > MAX_MSG_SIZE:
+                                send_response(message.roomId, buf)
+                                buf = ''
+                        if buf.strip():
+                            send_response(message.roomId, buf)
+
                     elif args[0] == BOT_NAME and args[1] == 'firewall' and args[2] == 'captures' and args[3] == 'ftd':
                         greeting = "Please wait for a couple of minutes, scanning all FTDs ..."
                         send_response(message.roomId, greeting)
+                        result = runner.invoke(firewall, args[1:] if not args[0] == BOT_NAME else args[2:])
+                        LOGGER.debug("Result Output {} Result ExitCode {}".format(result.output, result.exit_code))                        
+                        # Webex Teams has a limit on message size, so we need to chunk the output
+                        # 
+                        split_output = result.output.split('\n')
+                        buf = ''
+                        for line in split_output:
+                            buf = buf + '\n' + line
+                            if len(buf) > MAX_MSG_SIZE:
+                                send_response(message.roomId, buf)
+                                buf = ''
+                        if buf.strip():
+                            send_response(message.roomId, buf)
                     elif args[0] == 'firewall' and args[1] == 'captures' and args [2] == 'ftd':
                         greeting = "Please wait for a couple of minutes, scanning all FTDs ..."
                         send_response(message.roomId, greeting)
+                        result = runner.invoke(firewall, args[1:] if not args[0] == BOT_NAME else args[2:])
+                        LOGGER.debug("Result Output {} Result ExitCode {}".format(result.output, result.exit_code))                        
+                        # Webex Teams has a limit on message size, so we need to chunk the output
+                        # 
+                        split_output = result.output.split('\n')
+                        buf = ''
+                        for line in split_output:
+                            buf = buf + '\n' + line
+                            if len(buf) > MAX_MSG_SIZE:
+                                send_response(message.roomId, buf)
+                                buf = ''
+                        if buf.strip():
+                            send_response(message.roomId, buf)
  
                     elif args[0] == BOT_NAME and args[1] == 'firewall' and args[2] == 'embaudit':
                         logtype=args[2]
