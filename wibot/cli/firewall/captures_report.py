@@ -65,9 +65,6 @@ def format_caps(data,ctx,FW):
 			filedir = '/logs/'
 			filename = 'report.txt'
 			cap_file = os.path.join(filedir,filename)
-			if os.path.exists(cap_file):
-				os.remove(cap_file)
-			#print(filepath)
 			with open(cap_file,'a+') as f:
 				f.write("Capture left running on context %s on device %s\n" % (ctx,FW))
 				f.close()

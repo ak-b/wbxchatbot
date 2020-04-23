@@ -46,7 +46,7 @@ def asa():
     
 	for hosts in devices:
 		check_caps(hosts)
-	filedir = os.path.dirname(__file__)
+	filedir = '/logs/'
 	filepath = os.path.join(filedir,'report1.txt')
 	if os.path.exists(filepath):
 		f = open(filepath, 'r')
