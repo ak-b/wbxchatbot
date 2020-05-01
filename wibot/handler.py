@@ -47,7 +47,7 @@ def attachment_post(roomId : str, logtype: str):
     if logtype == 'embaudit':
         log_file_name = 'EmbConScan_log.txt'
     elif logtype == 'pwrscan':
-        log_file_name = "PwrScan_log.txt"
+        log_file_name = 'PwrScan_log.txt'
     log_filepath = os.path.join(log_file_dir,log_file_name)
     print(log_filepath)
     m = MultipartEncoder({'roomId': roomId,

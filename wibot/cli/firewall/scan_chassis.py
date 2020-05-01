@@ -23,7 +23,7 @@ except Exception as e1:
 
 def chassis_pwr(FW,cmd):
     try:
-        ssh_client.connect(hostname=FW, username= USERNAME, password= PASSWORD,\
+        ssh_client.connect(hostname=FW, username=USERNAME, password=PASSWORD,\
             allow_agent=False, look_for_keys=False, timeout=10)
         chan = ssh_client.invoke_shell()
         time.sleep(1)

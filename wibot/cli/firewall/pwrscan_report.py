@@ -83,9 +83,9 @@ def report(device):
 			inventory_asalegacy.append(device.lower())
 
 
-	pwrscan_file_dir = os.getcwd()
+	pwrscan_file_dir = '/logs/'
 	#print(pwrscan_file_dir)
-	pwrscan_file_name = "PwrScan_log.txt"
+	pwrscan_file_name = 'PwrScan_log.txt'
 	#print(pwrscan_file_name)
 	pwrscan_filepath = os.path.join(pwrscan_file_dir,pwrscan_file_name)
 	#print(pwrscan_filepath)
