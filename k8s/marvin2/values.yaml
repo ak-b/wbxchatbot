@@ -6,7 +6,7 @@ replicaCount: 1
 
 image:
   repository: registry-qa.webex.com/marvin
-  tag: prod58
+  tag: prod59
   pullPolicy: IfNotPresent
 
 storage: "vpatil3,haiyji,garywils,bkota,gmada,vakatta,vkundurt,yingjisu,arvinsi3,joedanfo,tocao,festeban,plockhar"
