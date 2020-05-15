@@ -44,10 +44,14 @@ def send_response(roomId: str, response_text: str):
 def attachment_post(roomId : str, logtype: str):
     log_file_dir = '/logs/'
     print(log_file_dir)
+    print(logtype)
     if logtype == 'embaudit':
         log_file_name = 'EmbConScan_log.txt'
     elif logtype == 'pwrscan':
         log_file_name = 'PwrScan_log.txt'
+    elif logtype == 'codescan':
+        log_file_name = 'CodeVersion_log.txt'
+    print(log_file_name)
     log_filepath = os.path.join(log_file_dir,log_file_name)
     print(log_filepath)
     m = MultipartEncoder({'roomId': roomId,
@@ -259,6 +263,48 @@ def process_message(message):
                         if buf.strip():
                             send_response(message.roomId, buf)   
                         attachment_post(message.roomId,logtype)
+                        
+                    elif args[0] == BOT_NAME and args[1] == 'firewall' and args[2] == 'codescan':
+                        logtype=args[2]
+                        greeting = "Please wait for ~10-15min scanning Software Code Version on all ASAs"
+                        send_response(message.roomId, greeting)
+                        result = runner.invoke(firewall, args[1:] if not args[0] == BOT_NAME else args[2:])
+                        LOGGER.debug("Result Output {} Result ExitCode {}".format(result.output, result.exit_code))
+                        # Webex Teams has a limit on message size, so we need to chunk the output
+                        #
+                        split_output = result.output.split('\n')
+
+                        buf = ''
+                        for line in split_output:
+                            buf = buf + '\n' + line
+                            if len(buf) > MAX_MSG_SIZE:
+                                send_response(message.roomId, buf)
+                                buf = ''
+
+                        if buf.strip():
+                            send_response(message.roomId, buf) 
+                        attachment_post(message.roomId,logtype)
+
+                    elif args[0] == 'firewall' and args[1] == 'codescan':
+                        logtype=args[1]
+                        greeting = "Please wait for ~10-15min scanning Software Code Version on all ASAs"
+                        send_response(message.roomId, greeting)
+                        result = runner.invoke(firewall, args[1:] if not args[0] == BOT_NAME else args[2:])
+                        LOGGER.debug("Result Output {} Result ExitCode {}".format(result.output, result.exit_code))
+                        # Webex Teams has a limit on message size, so we need to chunk the output
+                        #
+                        split_output = result.output.split('\n')
+
+                        buf = ''
+                        for line in split_output:
+                            buf = buf + '\n' + line
+                            if len(buf) > MAX_MSG_SIZE:
+                                send_response(message.roomId, buf)
+                                buf = ''
+
+                        if buf.strip():
+                            send_response(message.roomId, buf)    
+                        attachment_post(message.roomId,logtype)  
 
                     else:
                         result = runner.invoke(firewall, args[1:] if not args[0] == BOT_NAME else args[2:])
