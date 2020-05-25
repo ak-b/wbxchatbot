@@ -26,33 +26,40 @@ def embaudit(device):
 		device_inventory.append(device)
 	else:
 		ASA_predefined = ['ams01-wxp00-asa02a.webex.com', 'ams01-wxp00-asa02b.webex.com',\
-		 'ams01-wxp00-asa04a.webex.com', 'ams01-wxp00-asa04b.webex.com', 'ams01-wxp00-asa21a.webex.com',\
-		 'ams01-wxp00-asa21b.webex.com', 'ams01-wxp00-asacl01.webex.com',\
-		 'ams01-wxvc-asacl01.webex.com', 'dfw01-wxp00-asa02a.webex.com',\
-		 'dfw01-wxp00-asa02b.webex.com', 'dfw01-wxp00-asa03a.webex.com', 'dfw01-wxp00-asa03b.webex.com',\
-		 'dfw01-wxp00-asa04a.webex.com', 'dfw01-wxp00-asa04b.webex.com', 'dfw01-wxp00-asacl01.webex.com',\
-		 'dfw02-wxp00-asa03a.webex.com', 'dfw02-wxp00-asa03b.webex.com', 'dfw02-wxp00-asa04a.webex.com',\
-		 'dfw02-wxp00-asa04b.webex.com', 'dfw02-wxp00-asa21a.webex.com', 'dfw02-wxp00-asa21b.webex.com',\
-		 'dfw02-wxp00-asacl01.webex.com', 'dfw02-wxvc-asa01a.webex.com', 'dfw02-wxvc-asa01b.webex.com',\
-		 'dfw02-wxvc-asa02a.webex.com', 'dfw02-wxvc-asa02b.webex.com', 'dfw02-wxvc-asacl01.webex.com',\
-		 'iad02-wxp00-asa04a.webex.com', 'iad02-wxp00-asa04b.webex.com',\
-		 'iad02-wxp00-asacl01.webex.com', 'jfk01-edge0-asacl01.webex.com',\
-		 'jfk01-svc00-asacl01.webex.com', 'lhr03-wxp00-asa02a.webex.com', 'lhr03-wxp00-asa02b.webex.com',\
-		 'lhr03-wxp00-asa04a.webex.com', 'lhr03-wxp00-asa04b.webex.com',\
-		 'lhr03-wxp00-asacl01.webex.com',\
-		 'lhr03-wxvc-asacl01.webex.com',\
-		 'nrt03-wxp00-asa04a.webex.com', 'nrt03-wxp00-asa04b.webex.com',\
-		 'nrt03-wxp00-asa21a.webex.com', 'nrt03-wxp00-asa21b.webex.com', 'nrt03-wxvc-asa01a.webex.com',\
-		 'nrt03-wxvc-asa01b.webex.com', 'ord10-wxp00-asa21a.webex.com', 'ord10-wxp00-asa21b.webex.com',\
-		 'sin01-wxp00-asa04a.webex.com',\
-		 'sin01-wxp00-asa04b.webex.com', 'sin01-wxp00-asa21a.webex.com', 'sin01-wxp00-asa21b.webex.com',\
-		 'sin01-wxvc-asa01a.webex.com', 'sin01-wxvc-asa01b.webex.com', 'sjc02-wxp00-asa02a.webex.com',\
-		 'sjc02-wxp00-asa02b.webex.com', 'sjc02-wxp00-asa03a.webex.com', 'sjc02-wxp00-asa03b.webex.com',\
-		 'sjc02-wxp00-asa04a.webex.com', 'sjc02-wxp00-asa04b.webex.com', 'sjc02-wxp00-asa21a.webex.com',\
-		 'sjc02-wxp00-asa21b.webex.com', 'sjc02-wxp00-asacl01.webex.com', 'sjc02-wxvc-asa01a.webex.com',\
-		 'sjc02-wxvc-asa01b.webex.com', 'sjc02-wxvc-asa02a.webex.com', 'sjc02-wxvc-asa02b.webex.com',\
-		 'sjc02-wxvc-asacl01.webex.com', 'syd01-edge0-asacl01.webex.com', 'syd01-svc00-asacl01.webex.com',\
-		 'yyz01-wxp00-asa01a.webex.com', 'yyz01-wxp00-asa01b.webex.com']
+		'ams01-wxp00-asa04a.webex.com', 'ams01-wxp00-asa04b.webex.com',\
+		'ams01-wxp00-asa21a.webex.com', 'ams01-wxp00-asa21b.webex.com',\
+		'ams01-wxp00-asacl01.webex.com', 'ams01-wxvc-asacl01.webex.com',\
+		'dfw01-wxp00-asa02a.webex.com', 'dfw01-wxp00-asa02b.webex.com',\
+		'dfw01-wxp00-asa03a.webex.com', 'dfw01-wxp00-asa03b.webex.com',\
+		'dfw01-wxp00-asa04a.webex.com', 'dfw01-wxp00-asa04b.webex.com',\
+		'dfw01-wxp00-asacl01.webex.com', 'dfw02-wxp00-asa03a.webex.com',\
+		'dfw02-wxp00-asa03b.webex.com', 'dfw02-wxp00-asa04a.webex.com',\
+		'dfw02-wxp00-asa04b.webex.com', 'dfw02-wxp00-asacl01.webex.com',\
+		'dfw02-wxp00-asacl02.webex.com', 'dfw02-wxvc-asa01a.webex.com',\
+		'dfw02-wxvc-asa01b.webex.com', 'dfw02-wxvc-asa02a.webex.com',\
+		'dfw02-wxvc-asa02b.webex.com', 'dfw02-wxvc-asacl01.webex.com',\
+		'iad02-wxp00-asa04a.webex.com', 'iad02-wxp00-asa04b.webex.com',\
+		'iad02-wxp00-asacl01.webex.com', 'jfk01-edge0-asacl01.webex.com',\
+		'jfk01-svc00-asacl01.webex.com', 'lhr03-wxp00-asa02a.webex.com',\
+		'lhr03-wxp00-asa02b.webex.com', 'lhr03-wxp00-asa04a.webex.com',\
+		'lhr03-wxp00-asa04b.webex.com', 'lhr03-wxp00-asacl01.webex.com',\
+		'lhr03-wxvc-asacl01.webex.com', 'nrt03-wxp00-asa04a.webex.com',\
+		'nrt03-wxp00-asa04b.webex.com', 'nrt03-wxp00-asa21a.webex.com',\
+		'nrt03-wxp00-asa21b.webex.com', 'nrt03-wxvc-asa01a.webex.com',\
+		'nrt03-wxvc-asa01b.webex.com', 'ord10-wxp00-asa21a.webex.com',\
+		'sin01-wxp00-asa04a.webex.com', 'sin01-wxp00-asa04b.webex.com',\
+		'sin01-wxp00-asa21a.webex.com', 'sin01-wxp00-asa21b.webex.com',\
+		'sin01-wxp00-asacl01.webex.com', 'sin01-wxvc-asa01a.webex.com',\
+		'sin01-wxvc-asa01b.webex.com', 'sjc02-wxp00-asa02a.webex.com',\
+		'sjc02-wxp00-asa02b.webex.com', 'sjc02-wxp00-asa03a.webex.com',\
+		'sjc02-wxp00-asa03b.webex.com', 'sjc02-wxp00-asa04a.webex.com',\
+		'sjc02-wxp00-asa04b.webex.com', 'sjc02-wxp00-asa21a.webex.com',\
+		'sjc02-wxp00-asa21b.webex.com', 'sjc02-wxp00-asacl01.webex.com',\
+		'sjc02-wxvc-asa01a.webex.com', 'sjc02-wxvc-asa01b.webex.com',\
+		'sjc02-wxvc-asa02a.webex.com', 'sjc02-wxvc-asa02b.webex.com',\
+		'sjc02-wxvc-asacl01.webex.com', 'syd01-edge0-asacl01.webex.com',\
+		'syd01-svc00-asacl01.webex.com', 'yyz01-wxp00-asa01a.webex.com',\
+		'yyz01-wxp00-asa01b.webex.com']
 	 
 		#test_ASA = ['sjc02-wxqa-asatest1.webex.com']
 		#small_inventory = ['ams01-wxp00-asa02a.webex.com','dfw01-wxp00-asacl01.webex.com','sin01-wxp00-asa21a.webex.com']
