@@ -6,13 +6,13 @@ replicaCount: 1
 
 image:
   repository: registry-qa.webex.com/marvin
-  tag: prod66
+  tag: prod68
   pullPolicy: IfNotPresent
 
 storage: "vpatil3,haiyji,garywils,bkota,gmada,vakatta,vkundurt,yingjisu,arvinsi3,joedanfo,tocao,festeban,plockhar"
 compute: "nitreddy,cdiloren,egorelic,matdavid,papersal,ksheets"
 customer: "xuqyuan,mollys,ksheik"
-firewall: "akbansal,cmcelhin,brklaers,kanhamil,stevidav,gstyx,nehaja,sopuliu,amulasa,jawcooke,yizh2,hpulhug"
+firewall: "akbansal,cmcelhin,brklaers,kanhamil,stevidav,gstyx,nehaja,sopuliu,amulasa,jawcooke,yizh2,hpulhug,gmoghe"
 
 initVaultImage:
   repository: registry-qa.webex.com/oke/kubernetes-vault-init
@@ -20,6 +20,12 @@ initVaultImage:
   pullPolicy: IfNotPresent
 vault:
   roleId: "c25dcb46-ecaf-1ebf-e6aa-5dff75f5fe77"
+
+renewtokensidecar:
+  image:
+    repository: registry-qa.webex.com/ciap/renewtoken-vault-sidecar
+    tag: 10
+    pullPolicy: IfNotPresent
 
 imagePullSecrets: []
 nameOverride: ""

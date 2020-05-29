@@ -42,6 +42,23 @@ spec:
             mountPath: /logs/
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+        - name: renewtoken-vault-sidecar
+          image: registry-qa.webex.com/ciap/renewtoken-vault-sidecar:16
+          imagePullPolicy: IfNotPresent
+          args: ["1", "marvin_alert", "http://triggerchain.prv.webex.com/notificationhub/notifydirectly"]
+          volumeMounts:
+            - mountPath: /var/run/secrets/boostport.com
+              name: vault-token
+          livenessProbe:
+            exec:
+              command:
+              - /bin/bash
+              - ./checkhealth.sh
+          readinessProbe:
+            exec:
+              command:
+              - /bin/bash
+              - ./checkhealth.sh
       initContainers:
         - name: get-vault-token
           image: "{{ .Values.initVaultImage.repository }}:{{ .Values.initVaultImage.tag }}"
