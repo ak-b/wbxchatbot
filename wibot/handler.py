@@ -324,7 +324,7 @@ def process_message(message):
                             send_response(message.roomId, buf)
 
         except ApiError:
-            LOGGER.error("Unable to fetch message {}".format(message_id, json_data))
+            LOGGER.error("Unable to fetch message {} Log Details: {}".format(message_id, json_data))
 
 
 def on_message(ws, message):

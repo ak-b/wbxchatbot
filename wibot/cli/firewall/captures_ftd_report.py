@@ -9,7 +9,6 @@ from wibot.utils import get_config
 configs = get_config()
 
 FTD_USERNAME = configs['FTD_USERNAME']
-FTD_PASSWORD = configs['FTD_PASSWORD']
 
 try:
 	ssh_client: SSHClient = paramiko.SSHClient()
@@ -19,6 +18,10 @@ except Exception as e1:
 
 def show_caps(FTD,name):
 	try:
+		if name == "syd10-wxp00-ftd01a.webex.com":
+			FTD_PASSWORD = configs['ENABLE_PASSWORD']
+		else:
+			FTD_PASSWORD = configs['FTD_PASSWORD']
 		ssh_client.connect(hostname=FTD, username=FTD_USERNAME, password=FTD_PASSWORD,\
 			allow_agent=False, look_for_keys=False, timeout=10)
 		chan = ssh_client.invoke_shell() 
