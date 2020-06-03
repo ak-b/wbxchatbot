@@ -20,6 +20,7 @@ from wibot.cli.firewall.embaudit import embaudit as firewall_embaudit
 from wibot.cli.firewall.pwrscan import pwrscan as firewall_pwrscan
 from wibot.cli.firewall.fragment import fragment as firewall_fragment
 from wibot.cli.firewall.codescan import codescan as firewall_codescan
+from wibot.cli.firewall.firewall_cfgdiff import cfgdiff as firewall_cfgdiff
 
 @click.group(name='admin', help="Storage team commands")
 def admin(args=None):
@@ -64,6 +65,7 @@ firewall.add_command(firewall_embaudit)
 firewall.add_command(firewall_pwrscan)
 firewall.add_command(firewall_fragment)
 firewall.add_command(firewall_codescan)
+firewall.add_command(firewall_cfgdiff)
 
 if __name__ == "__main__":
     sys.exit()  # pragma: no cover
