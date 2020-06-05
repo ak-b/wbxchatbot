@@ -112,6 +112,9 @@ def process_message(message):
                     result = runner.invoke(customer, args[1:] if not args[0] == BOT_NAME else args[2:])
 
                 if role == "firewall":
+                    if args[0] == BOT_NAME and not (args[1:]):
+                        help_msg = "Please type @Marvin help in a group or hi in a 1:1 space to see me in action"
+                        send_response(message.roomId, help_msg)
                     if args[0] == BOT_NAME and args[1] == 'firewall' and args[2] == 'captures' and args[3] == 'asa':
                         greeting = "Please wait for ~30min-40min, scanning all FWs and contexts..."
                         send_response(message.roomId, greeting)
