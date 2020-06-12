@@ -39,7 +39,7 @@ def cfgdiff():
 				timefield=row["Last Commit"]
 				datefield = timefield.split()[0]
 				#print(datefield)
-				if str(current) == datefield:
+				if str(current) == datefield or str(past) == datefield:
 					counter = counter + 1
 					device= row["Device"]	
 					if re.search("-cl-",device):
