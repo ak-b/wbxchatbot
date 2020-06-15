@@ -42,22 +42,22 @@ def cfgdiff():
 				if str(current) == datefield or str(past) == datefield:
 					counter = counter + 1
 					device= row["Device"]	
-					if re.search("-cl-",device):
-						pass
-					else:	
-						print("ASA CONFIGURATION DIFF IN THE PAST 24HRS\n")
-						dev_diff_url='https://dfw01-netdb.webex.com/netdb/reports/cfgdiff/?dev={}&cd=0&rep='.format(device)
-						dev_diff_download= requests.get(dev_diff_url,auth=HTTPBasicAuth(NETDB_USERNAME,NETDB_PASSWORD))
-						if dev_diff_download.status_code == 200:
-							content_html = dev_diff_download.text[:]
-							content_text = html2text.html2text(content_html)
-							#print(content_text)
-							content = content_text.splitlines()
-							click.echo(click.style("Device&Context: {}\n".format(device),bold='True'))
-							print("ConfigChange:\n")
-							for line in content:
-								if re.search(">",line):
-									print(line.replace('>',""))
+					#if re.search("-cl-",device):
+					#	pass
+					#else:	
+					print("ASA CONFIGURATION DIFF IN THE PAST 24HRS\n")
+					dev_diff_url='https://dfw01-netdb.webex.com/netdb/reports/cfgdiff/?dev={}&cd=0&rep='.format(device)
+					dev_diff_download= requests.get(dev_diff_url,auth=HTTPBasicAuth(NETDB_USERNAME,NETDB_PASSWORD))
+					if dev_diff_download.status_code == 200:
+						content_html = dev_diff_download.text[:]
+						content_text = html2text.html2text(content_html)
+						#print(content_text)
+						content = content_text.splitlines()
+						click.echo(click.style("Device&Context: {}\n".format(device),bold='True'))
+						print("ConfigChange:\n")
+						for line in content:
+							if re.search(">",line):
+								print(line.replace('>',""))
 			if counter == 0:
 				print("No ASA Configuration Changes in the Past 24hrs") 
 	else:
