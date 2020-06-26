@@ -36,7 +36,8 @@ def asa():
 	'lhr03-wxvc-asacl01.webex.com', 'nrt03-wxp00-asa04a.webex.com',\
 	'nrt03-wxp00-asa04b.webex.com', 'nrt03-wxp00-asa21a.webex.com',\
 	'nrt03-wxp00-asa21b.webex.com', 'nrt03-wxvc-asa01a.webex.com',\
-	'nrt03-wxvc-asa01b.webex.com', 'ord10-wxp00-asa21a.webex.com',\
+	'nrt03-wxvc-asa01b.webex.com', 'nrt03-wxp00-asacl01.webex.com',\
+	'ord10-wxp00-asa21a.webex.com',\
 	'sin01-wxp00-asa04a.webex.com', 'sin01-wxp00-asa04b.webex.com',\
 	'sin01-wxp00-asa21a.webex.com', 'sin01-wxp00-asa21b.webex.com',\
 	'sin01-wxp00-asacl01.webex.com', 'sin01-wxvc-asa01a.webex.com',\
