@@ -39,7 +39,8 @@ def codescan(device):
 	'dfw02-wxvc-asacl01.webex.com', 'iad02-wxp00-asacl01.webex.com', 'jfk01-edge0-asacl01.webex.com',\
 	'jfk01-svc00-asacl01.webex.com', 'lhr03-wxp00-asacl01.webex.com', 'lhr03-wxvc-asacl01.webex.com',\
 	'sjc02-wxp00-asacl01.webex.com', 'sjc02-wxvc-asacl01.webex.com',\
-	'syd01-edge0-asacl01.webex.com', 'syd01-svc00-asacl01.webex.com']
+	'sin01-wxp00-asacl01.webex.com',\
+	'nrt03-wxp00-asacl01.webex.com','syd01-edge0-asacl01.webex.com', 'syd01-svc00-asacl01.webex.com']
 
 	# Removing device 'sin01-wxp00-asacl01.webex.com' from inventory because its unreachable
 
