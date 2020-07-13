@@ -23,6 +23,7 @@ from wibot.cli.firewall.codescan import codescan as firewall_codescan
 from wibot.cli.firewall.firewall_cfgdiff import cfgdiff as firewall_cfgdiff
 from wibot.cli.firewall.nsmmp_enable import enable_mmp as firewall_enable_mmp 
 from wibot.cli.firewall.dryrun import dryrun as firewall_dryrun
+from wibot.cli.firewall.search_eureka import search_eureka as firewall_search_eureka
 
 @click.group(name='admin', help="Storage team commands")
 def admin(args=None):
@@ -70,6 +71,7 @@ firewall.add_command(firewall_codescan)
 firewall.add_command(firewall_cfgdiff)
 firewall.add_command(firewall_enable_mmp)
 firewall.add_command(firewall_dryrun)
+firewall.add_command(firewall_search_eureka)
 
 if __name__ == "__main__":
     sys.exit()  # pragma: no cover
