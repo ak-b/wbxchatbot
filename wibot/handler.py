@@ -11,7 +11,7 @@ from webexteamssdk import WebexTeamsAPI
 from webexteamssdk.exceptions import ApiError
 from webexteamssdk.models.immutable import Message
 from wibot.rbac import get_role
-from wibot.cli.cli import firewall
+from wibot.cli.cli import firewall, ddos
 from wibot.utils import get_config
 from wibot import BOT_AUTH_HEADER
 
@@ -94,23 +94,36 @@ def process_message(message):
             email = message.personEmail
             roles = get_role(email)
             if not roles:
-                send_response(message.roomId, "Unauthorized user {}".format(email))
-                return
+                #send_response(message.roomId, "Unauthorized user {}".format(email))
+                LOGGER.debug(message.text)
+                runner = CliRunner()
+                args = message.text.split()
+                result = runner.invoke(ddos, args[1:] if not args[0] == BOT_NAME else args[2:])
+                print("Output of Invocation")
+                print(result.output)
+                LOGGER.debug("Result Output {} Result ExitCode {}".format(result.output, result.exit_code))
+
+                # Webex Teams has a limit on message size, so we need to chunk the output
+                #
+                split_output = result.output.split('\n')
+                print(split_output)
+
+                buf = ''
+                for line in split_output:
+                    buf = buf + '\n' + line
+                    if len(buf) > MAX_MSG_SIZE:
+                        send_response(message.roomId, buf)
+                        buf = ''
+
+                if buf.strip():
+                    send_response(message.roomId, buf)
+
             for role in roles:
                 LOGGER.debug("Using role: {}".format(role))
                 LOGGER.debug(message.text)
                 runner = CliRunner()
                 args = message.text.split()
                 result = "Unauthorized user {}".format(email)
-                if role == "storage":
-                    result = runner.invoke(admin, args[1:] if not args[0] == BOT_NAME else args[2:])
-
-                if role == "compute":
-                    result = runner.invoke(compute, args[1:] if not args[0] == BOT_NAME else args[2:])
-
-                if role == "customer":
-                    result = runner.invoke(customer, args[1:] if not args[0] == BOT_NAME else args[2:])
-
                 if role == "firewall":
                     if args[0] == BOT_NAME and not (args[1:]):
                         help_msg = "Please type @Marvin help in a group or hi in a 1:1 space to see me in action"

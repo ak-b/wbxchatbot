@@ -24,11 +24,16 @@ from wibot.cli.firewall.firewall_cfgdiff import cfgdiff as firewall_cfgdiff
 from wibot.cli.firewall.nsmmp_enable import enable_mmp as firewall_enable_mmp 
 from wibot.cli.firewall.dryrun import dryrun as firewall_dryrun
 from wibot.cli.firewall.search_eureka import search_eureka as firewall_search_eureka
+from wibot.cli.firewall.search_ipi import search_ipi as search_ipi
 
-@click.group(name='admin', help="Storage team commands")
-def admin(args=None):
+
+@click.group(name = 'ddos')
+def ddos(args=None):
+    """
+For detailed usage instructions please refer:
+https://wiki.cisco.com/display/AS13445/Usage+Guide+Generic
+    """
     pass
-
 
 @click.group(name='compute', help="Compute team commands")
 def compute(args=None):
@@ -57,7 +62,8 @@ def firewall(args=None):
 
 #customer.add_command(customer_cdot)
 
-
+ddos.add_command(search_ipi)
+firewall.add_command(search_ipi)
 firewall.add_command(firewall_health)
 firewall.add_command(firewall_intbuffer)
 firewall.add_command(firewall_contexts)
