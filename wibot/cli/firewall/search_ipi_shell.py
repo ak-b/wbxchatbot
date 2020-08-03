@@ -4,10 +4,9 @@ import time
 from wibot.utils import get_config
 
 configs = get_config()
-USERNAME = configs['BOT_USERNAME']
-PASSWORD = configs['BOT_PASSWORD']
-
-bigip_server= '10.255.110.10'
+USERNAME = configs['BIGIP_USERNAME']
+PASSWORD = configs['BIGIP_PASSWORD']
+bigip_server= configs['BIGIP_SRVR']
 
 try:
     ssh_client: SSHClient = paramiko.SSHClient()
@@ -36,7 +35,7 @@ def lookup_ipi(ip_lookup):
 		print("Authentication Failure")
 
 	except Exception as e:
-		pass
+		print("Unable to connect to DB, please try again later")
 
 if __name__ == "__main__":
 	#search_ipi('20.190.137.6')

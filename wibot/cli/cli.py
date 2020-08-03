@@ -25,7 +25,8 @@ from wibot.cli.firewall.nsmmp_enable import enable_mmp as firewall_enable_mmp
 from wibot.cli.firewall.dryrun import dryrun as firewall_dryrun
 from wibot.cli.firewall.search_eureka import search_eureka as firewall_search_eureka
 from wibot.cli.firewall.search_ipi import search_ipi as search_ipi
-
+from wibot.cli.firewall.feed_wl import feed_wl as feed_wl
+from wibot.cli.firewall.remove_feed import remove_feed as remove_feed
 
 @click.group(name = 'ddos')
 def ddos(args=None):
@@ -63,6 +64,8 @@ def firewall(args=None):
 #customer.add_command(customer_cdot)
 
 ddos.add_command(search_ipi)
+firewall.add_command(remove_feed)
+firewall.add_command(feed_wl)
 firewall.add_command(search_ipi)
 firewall.add_command(firewall_health)
 firewall.add_command(firewall_intbuffer)
