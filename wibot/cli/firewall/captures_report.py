@@ -4,7 +4,6 @@ import time
 import re
 import paramiko 
 from paramiko import SSHClient
-from wibot.cli.firewall.fw_inventory import get_inventory
 from wibot.utils import get_config 
 
 configs = get_config()
