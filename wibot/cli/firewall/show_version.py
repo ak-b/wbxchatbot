@@ -50,5 +50,4 @@ def show_version(FW):
         #print("exception" + str(e))
 
 if __name__ == "__main__":
-    #log_scan('sjc02-wxqa-asatest1.webex.com')
     sys.exit()
