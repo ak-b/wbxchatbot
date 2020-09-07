@@ -6,40 +6,12 @@ from wibot.cli.firewall.scan_legacyasa import scan_asa
 
 def report(device):
 
-	inventory_asalegacy = ['ams01-wxp00-asa02a.webex.com', 'ams01-wxp00-asa02b.webex.com',\
-	'ams01-wxp00-asa04a.webex.com', 'ams01-wxp00-asa04b.webex.com', 'dfw01-wxp00-asa02a.webex.com',\
-	'dfw01-wxp00-asa02b.webex.com', 'dfw01-wxp00-asa03a.webex.com', 'dfw01-wxp00-asa03b.webex.com',\
-	'dfw01-wxp00-asa04a.webex.com', 'dfw01-wxp00-asa04b.webex.com', 'dfw02-wxp00-asa03a.webex.com',\
-	'dfw02-wxp00-asa03b.webex.com', 'dfw02-wxvc-asa01a.webex.com', 'dfw02-wxvc-asa01b.webex.com',\
-	'dfw02-wxvc-asa02a.webex.com', 'dfw02-wxvc-asa02b.webex.com', 'iad02-wxp00-asa04a.webex.com',\
-	'iad02-wxp00-asa04b.webex.com',\
-	'sin01-wxp00-asa04a.webex.com', 'sin01-wxp00-asa04b.webex.com', 'sjc02-wxp00-asa02a.webex.com',\
-	'sjc02-wxp00-asa02b.webex.com', 'sjc02-wxp00-asa03a.webex.com', 'sjc02-wxp00-asa03b.webex.com',\
-	'sjc02-wxp00-asa04a.webex.com', 'sjc02-wxp00-asa04b.webex.com', 'sjc02-wxvc-asa01a.webex.com',\
-	'sjc02-wxvc-asa01b.webex.com', 'sjc02-wxvc-asa02a.webex.com', 'sjc02-wxvc-asa02b.webex.com',\
-	'yyz01-wxp00-asa01a.webex.com', 'yyz01-wxp00-asa01b.webex.com']
+	inventory_asalegacy = []
 
-	chassis_url_raw = ['ams01-wxp00-fpr01a.webex.com', 'ams01-wxp00-fpr01b.webex.com', \
-	'ams01-wxvc-fpr02a.webex.com', 'ams01-wxvc-fpr02b.webex.com', 'dfw01-wxp00-fpr01b.webex.com',\
-	'dfw01-wxp00-fpr01a.webex.com', 'dfw02-wxp00-fpr01b.webex.com', 'dfw02-wxp00-fpr01a.webex.com',\
-	'dfw02-wxp00-fpr02a.webex.com', 'dfw02-wxp00-fpr02b.webex.com', 'dfw02-wxvc-fpr01a.webex.com',\
-	'dfw02-wxvc-fpr01b.webex.com', 'iad02-wxp00-fpr01a.webex.com', 'iad02-wxp00-fpr01b.webex.com',\
-	'jfk01-edge0-fpr01b.webex.com', 'jfk01-edge0-fpr01a.webex.com', 'jfk01-svc00-fpr01a.webex.com',\
-	'jfk01-svc00-fpr01b.webex.com', 'lhr03-wxp00-fpr01a.webex.com', 'lhr03-wxp00-fpr01b.webex.com',\
-	'lhr03-wxp00-fpr02a.webex.com', 'lhr03-wxp00-fpr02b.webex.com', 'lhr03-wxvc-fpr02a.webex.com',\
-	'lhr03-wxvc-fpr02b.webex.com', 'nrt03-wxp00-fpr02a.webex.com', 'nrt03-wxp00-fpr02b.webex.com',\
-	'sjc02-wxp00-fpr01b.webex.com', 'sjc02-wxp00-fpr01a.webex.com', 'sjc02-wxvc-fpr01a.webex.com',\
-	'sjc02-wxvc-fpr01b.webex.com', 'syd01-edge0-fpr01a.webex.com', 'syd01-edge0-fpr01b.webex.com',\
-	'syd01-svc00-fpr01b.webex.com', 'syd01-svc00-fpr01a.webex.com']
+	chassis_url_raw = []
 
-	chassis4150_url = ['nrt03-wxvc-fpr02a.webex.com', 'nrt03-wxvc-fpr02b.webex.com',\
-	'sin01-wxvc-fpr02a.webex.com', 'sin01-wxvc-fpr02b.webex.com', 'sjc02-wxp00-fpr02b.webex.com',\
-	'sjc02-wxp00-fpr02a.webex.com']
-
+	chassis4150_url = []
 	
-	#inventory_asalegacy=['ams01-wxp00-asa02a.webex.com']
-	#chassis_url_raw=['dfw02-wxvc-fpr01a.webex.com']
-	#chassis4150_url=['ord10-wxp00-fpr02a.webex.com']
 
 	## ADD inventory for 9300 and 4150 together because they need the exact same steps
 	## for extraction of psu and fan health
