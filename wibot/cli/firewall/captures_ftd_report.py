@@ -18,7 +18,7 @@ except Exception as e1:
 
 def show_caps(FTD,name):
 	try:
-		if name == "syd10-wxp00-ftd01a.webex.com":
+		if name == "###"
 			FTD_PASSWORD = configs['ENABLE_PASSWORD']
 		else:
 			FTD_PASSWORD = configs['FTD_PASSWORD']
@@ -67,10 +67,5 @@ def show_caps(FTD,name):
 
 if __name__ == '__main__':
 	sys.exit()
-	'''
-	devices = get_inventory()
-	for item in devices:
-		print("Checking for FTD % s" % item['name'])
-		show_caps(item['ip_address'],item['name'])
-	'''
+
 
