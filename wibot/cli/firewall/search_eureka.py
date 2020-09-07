@@ -16,7 +16,7 @@ def search_eureka(subnet):
 	print("***********************************************************")
 	print("Mapping NS FW Eureka Template for subnets in STAP.WEBEX.COM")
 	print("***********************************************************")
-	template = {'tcp':['80','443','8081'],'udp':['9000']}
+	template = {'tcp':[],'udp':[]}
 	print(template)
 	print("\nFirewalls with an ACL(/s) allowing internet to webex access for Eureka\n")
 	flat_list = []
@@ -28,4 +28,4 @@ def search_eureka(subnet):
 			table_templ.append(lookup('0.0.0.0/0',subnet,port,key))
 	flat_list=[item for sublist in table_templ for item in sublist]
 	another_list.append(flat_list)
-	print(tabulate(another_list, headers = ['SUBNET','TCP80','TCP443','TCP8081','UDP9000']))
+	print(tabulate(another_list, headers = ['SUBNET','TCP','UDP']))
