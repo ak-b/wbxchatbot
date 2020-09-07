@@ -10,8 +10,6 @@ from wibot.utils import get_config
 
 from wibot import BOT_AUTH_HEADER
 
-#from wibot import BOT_NAME, BOT_AUTH_HEADER
-
 configs = get_config()
 
 BOT_NAME = configs['BOT_NAME']
@@ -78,7 +76,6 @@ class SparkEndpoint:
 
     def delete_all_existing_devices(self):
         LOGGER.debug('Deleting all existing endpoints')
-        #print(self.get_all_devices())
         list(map(lambda device: requests.request("DELETE", device['url'], headers=BOT_AUTH_HEADER),
                  self.get_all_devices()))
 
