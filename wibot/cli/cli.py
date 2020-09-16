@@ -27,6 +27,7 @@ from wibot.cli.firewall.search_eureka import search_eureka as firewall_search_eu
 from wibot.cli.firewall.search_ipi import search_ipi as search_ipi
 from wibot.cli.firewall.feed_wl import feed_wl as feed_wl
 from wibot.cli.firewall.remove_feed import remove_feed as remove_feed
+from wibot.cli.firewall.search_es import logs as logs
 
 @click.group(name = 'ddos')
 def ddos(args=None):
@@ -34,15 +35,6 @@ def ddos(args=None):
 For detailed usage instructions please refer:
 https://wiki.cisco.com/display/AS13445/Usage+Guide+Generic
     """
-    pass
-
-@click.group(name='compute', help="Compute team commands")
-def compute(args=None):
-    pass
-
-
-@click.group(name='customer', help="Customer executable commands")
-def customer(args=None):
     pass
 
 @click.group(name='firewall')
@@ -53,16 +45,7 @@ def firewall(args=None):
 	"""
 	pass
 
-#admin.add_command(admin_snow)
-#admin.add_command(admin_mode7)
-#admin.add_command(admin_cdot)
-#admin.add_command(admin_pure)
-#admin.add_command(admin_solidfire)
-
-#compute.add_command(compute_solidfire)
-
-#customer.add_command(customer_cdot)
-
+firewall.add_command(logs)
 ddos.add_command(search_ipi)
 firewall.add_command(remove_feed)
 firewall.add_command(feed_wl)

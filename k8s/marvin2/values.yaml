@@ -6,7 +6,7 @@ replicaCount: 1
 
 image:
   repository: registry-qa.webex.com/marvin
-  tag: prod98
+  tag: prod99
   pullPolicy: IfNotPresent
 
 firewall: "akbansal,cmcelhin,brklaers,kanhamil,stevidav,gstyx,nehaja,sopuliu,amulasa,jawcooke,yizh2,hpulhug,gmoghe,ravisheg,joedanfo,todwipff,dashipma,tifmanni,aafoss,yezhao"
