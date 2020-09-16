@@ -3,13 +3,6 @@
 """Console script for wibot."""
 import click
 import sys
-#from wibot.cli.admin.cdot import cdot as admin_cdot
-#from wibot.cli.admin.pure import pure as admin_pure
-#from wibot.cli.admin.solidfire import solidfire as admin_solidfire
-#from wibot.cli.admin.mode7 import mode7 as admin_mode7
-#from wibot.cli.compute.solidfire import solidfire as compute_solidfire
-#from wibot.cli.customer.cdot import cdot as customer_cdot
-#from wibot.cli.admin.snow import snow as admin_snow
 from wibot.cli.firewall.health import health as firewall_health
 from wibot.cli.firewall.aclsearch import aclsearch as firewall_aclsearch
 from wibot.cli.firewall.cpualert import cpualert as firewall_cpualert
@@ -33,7 +26,7 @@ from wibot.cli.firewall.search_es import logs as logs
 def ddos(args=None):
     """
 For detailed usage instructions please refer:
-https://wiki.cisco.com/display/AS13445/Usage+Guide+Generic
+##MASKED CODE
     """
     pass
 
@@ -45,7 +38,10 @@ def firewall(args=None):
 	"""
 	pass
 
+<<<<<<< HEAD
 firewall.add_command(logs)
+=======
+>>>>>>> 4b78f22bbfec0a2f4afe861ef0fea359c8041cec
 ddos.add_command(search_ipi)
 firewall.add_command(remove_feed)
 firewall.add_command(feed_wl)

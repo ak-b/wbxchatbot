@@ -58,4 +58,3 @@ def scan_asa(FW):
 
 if __name__ == "__main__":
     sys.exit()
-    #scan_asa('ams01-wxp00-asa02a.webex.com')

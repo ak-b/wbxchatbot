@@ -5,12 +5,6 @@ from wibot.cli.firewall.show_commands import run_show as show
 def health():
 	pass
 
-#@health.command('hi')
-#def hi():
-#	click.echo('Hello! I understand the following commands:')
-#	click.echo('CPU')
-#	click.echo('MEMORY')
-
 @health.command('CPU')
 @click.argument('devicename')
 @click.argument('context')

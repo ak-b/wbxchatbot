@@ -1,14 +1,14 @@
 ftd_devices = [
 {
-	'name': "ord10-wxp00-ftd01a.webex.com",
-	'ip_address': "10.255.141.170",
+	'name': "",
+	'ip_address': "",
 },
 {
-	'name': "hkg10-wxp00-ftd01a.webex.com",
-	'ip_address': "10.255.89.26",
+	'name': "",
+	'ip_address': "",
 },
 {
-	'name': "syd10-wxp00-ftd01a.webex.com",
-	'ip_address': "10.254.112.40",
+	'name': "",
+	'ip_address': "",
 }
 ]

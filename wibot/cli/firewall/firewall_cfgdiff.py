@@ -19,16 +19,13 @@ def cfgdiff():
 
 @cfgdiff.command(help= "ASA Configuration Changes in the past 24hrs")
 def cfgdiff():
-	netdb_url_diff= 'https://dfw01-netdb.webex.com/netdb/reports/cfgdiff/?fmt=csv&re=asa&cd=1&so=Last%20Commit&cmp[]=on&cmp[]=on'
+	netdb_url_diff= '<>?fmt=csv&re=asa&cd=1&so=Last%20Commit&cmp[]=on&cmp[]=on'
 	path_db = "/logs"
 	file = "config_diff_netdb.csv"
 	file_path = os.path.join(path_db,file)
 
 	netdb_download = requests.get(netdb_url_diff,auth=HTTPBasicAuth(NETDB_USERNAME,NETDB_PASSWORD))
-	#print(netdb_download.status_code)
 	if netdb_download.status_code == 200:
-		#print(netdb_download.text[:])
-		##extract timestamp
 		current = date.today()
 		past = current - timedelta(days=1)
 		open(file_path,'wb').write(netdb_download.content)
@@ -38,13 +35,9 @@ def cfgdiff():
 			for row in csv_reader:
 				timefield=row["Last Commit"]
 				datefield = timefield.split()[0]
-				#print(datefield)
 				if str(current) == datefield or str(past) == datefield:
 					counter = counter + 1
 					device= row["Device"]	
-					#if re.search("-cl-",device):
-					#	pass
-					#else:	
 					print("ASA CONFIGURATION DIFF IN THE PAST 24HRS\n")
 					dev_diff_url='https://dfw01-netdb.webex.com/netdb/reports/cfgdiff/?dev={}&cd=0&rep='.format(device)
 					dev_diff_download= requests.get(dev_diff_url,auth=HTTPBasicAuth(NETDB_USERNAME,NETDB_PASSWORD))

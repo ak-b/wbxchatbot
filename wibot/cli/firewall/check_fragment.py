@@ -1,8 +1,6 @@
 ## Requirement is for an INC , this is a specific case/feature for bot
-## To be run only for LHR and SJC cluster FIREWALL for the context "Core"
 ## FEATURES
-# 1. Predefinition of the inventory in this case: lhr03-wxp00-asacl01.webex.com
-# and sjc02-wxp00-asacl01.webex.com
+# 1. Predefinition of the inventory in this case: 
 # 2. Script takes no user input and returns the output for the Core context 
 # on both firewalls in step 1.
 # 3. Later add the feature to customise user input
