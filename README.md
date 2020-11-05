@@ -1,4 +1,4 @@
-Security Bot
+**Security Bot**
 
 **Problem statement**
 Challenges in dealing with incident management, infrastructure scaling, TCBs, setting standards.
