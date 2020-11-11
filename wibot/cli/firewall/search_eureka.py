@@ -16,7 +16,7 @@ def search_eureka(subnet):
 	print("***********************************************************")
 	print("Mapping NS FW Eureka Template for subnets in STAP.WEBEX.COM")
 	print("***********************************************************")
-	template = {'tcp':[],'udp':[]}
+	template = {'tcp':['80','443','8081'],'udp':['9000']}
 	print(template)
 	print("\nFirewalls with an ACL(/s) allowing internet to webex access for Eureka\n")
 	flat_list = []
