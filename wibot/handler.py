@@ -1,5 +1,6 @@
-import json
 import os
+import json
+import time
 import logging
 from concurrent.futures import ThreadPoolExecutor
 import requests
@@ -11,22 +12,35 @@ from webexteamssdk import WebexTeamsAPI
 from webexteamssdk.exceptions import ApiError
 from webexteamssdk.models.immutable import Message
 from wibot.rbac import get_role
-from wibot.cli.cli import firewall, ddos
-from wibot.utils import get_config
-from wibot import BOT_AUTH_HEADER
+from wibot.cli.cli import firewall, ddos, search, show
+from wibot.cards import handle_doc
+from wibot import BOT_TOKEN, BOT_AUTH_HEADER, BOT_NAME
 
-configs = get_config()
-
-BOT_NAME = configs['BOT_NAME']
-BOT_TOKEN = configs['BOT_TOKEN']
 
 LOGGER = logging.getLogger(__name__)
+LOGGER.addHandler(logging.StreamHandler())
+LOGGER.setLevel(logging.ERROR)
 API_URL = "https://api.ciscospark.com/v1/messages"
 MAX_MSG_SIZE = 4096
 
 api: WebexTeamsAPI = None
 #changed max#workers to 1 to avoid message swap between concurrent calls
 message_processor = ThreadPoolExecutor(max_workers=1)
+
+
+def send_raw_response(roomId: str, response_text: str):
+    LOGGER.debug(f"Debug - Response Text: {response_text}")
+    markdown = """
+    \n{response}
+    """.format(response=response_text)
+
+    json_data = {
+        'roomId': roomId,
+        'markdown': markdown,
+    }
+    response = requests.request('POST', API_URL, json=json_data, headers=BOT_AUTH_HEADER)
+    LOGGER.debug(f"Debug - Response: {pprint.pprint(response.json())}")
+
 
 
 def send_response(roomId: str, response_text: str):
@@ -41,17 +55,37 @@ def send_response(roomId: str, response_text: str):
     response = requests.request('POST', API_URL, json=json_data, headers=BOT_AUTH_HEADER)
     LOGGER.debug(pprint.pprint(response.json()))
 
+def send_card_response(roomId: str, card_response: str):
+    json_data = {
+        'roomId': roomId,
+        'markdown': 'x',
+        'attachments': [card_response],
+    }
+    pprint.pprint(json.dumps(json_data))
+    response = requests.request('POST', API_URL, json=json_data, headers=BOT_AUTH_HEADER)
+    LOGGER.debug(pprint.pprint(response.json()))
+
+
+def handled_using_card(message, args) -> bool:
+    if args[1] == 'help':
+        card_response = handle_doc('help')
+        send_card_response(message.roomId, card_response)
+    else:
+        pass
+
+    if not card_response:
+        return False
+    return True
+
 def attachment_post(roomId : str, logtype: str):
-    log_file_dir = '/logs/'
+    log_file_dir = os.getcwd()
     print(log_file_dir)
-    print(logtype)
     if logtype == 'embaudit':
-        log_file_name = 'EmbConScan_log.txt'
+        log_file_name = "EmbConScan_log.txt"
     elif logtype == 'pwrscan':
-        log_file_name = 'PwrScan_log.txt'
+        log_file_name = "PwrScan_log.txt"
     elif logtype == 'codescan':
         log_file_name = 'CodeVersion_log.txt'
-    print(log_file_name)
     log_filepath = os.path.join(log_file_dir,log_file_name)
     print(log_filepath)
     m = MultipartEncoder({'roomId': roomId,
@@ -78,7 +112,6 @@ def html_message_post(roomid: str, html: str):
     except Exception as e:
         LOGGER.error(str({'title': 'spark_message_post', 'exception': str(e)}))
 
-
 def process_message(message):
     json_data = json.loads(message)
     if 'data' in json_data and \
@@ -93,16 +126,55 @@ def process_message(message):
 
             email = message.personEmail
             roles = get_role(email)
+            print(roles)
             if not roles:
-                #send_response(message.roomId, "Unauthorized user {}".format(email))
-                LOGGER.debug(message.text)
+                greeting = " Welcome to the space, type '@Marvin help' to see me in action"
+                send_response(message.roomId, greeting)
                 runner = CliRunner()
                 args = message.text.split()
-                result = runner.invoke(ddos, args[1:] if not args[0] == BOT_NAME else args[2:])
-                print("Output of Invocation")
-                print(result.output)
+                print(args)
+                if handled_using_card(message, args):
+                    pass
+                result = runner.invoke(search, args[1:] if not args[0] == BOT_NAME else args[2:])
+                print("Output of the invocation")
+                print(result)
                 LOGGER.debug("Result Output {} Result ExitCode {}".format(result.output, result.exit_code))
+                #
+                # Webex Teams has a limit on message size, so we need to chunk the output
+                #
+                split_output = result.output.split('\n')
 
+                buf = ''
+                for line in split_output:
+                    buf = buf + '\n' + line
+                    if len(buf) > MAX_MSG_SIZE:
+                        send_response(message.roomId, buf)
+                        buf = ''
+
+                if buf.strip():
+                    send_response(message.roomId, buf)
+
+                result = runner.invoke(show, args[1:] if not args[0] == BOT_NAME else args[2:])
+                LOGGER.debug("Result Output {} Result ExitCode {}".format(result.output, result.exit_code))
+                LOGGER.debug(message.text)
+                # Webex Teams has a limit on message size, so we need to chunk the output
+                #
+                split_output = result.output.split('\n')
+                print(split_output)
+
+                buf = ''
+                for line in split_output:
+                    buf = buf + '\n' + line
+                    if len(buf) > MAX_MSG_SIZE:
+                        send_response(message.roomId, buf)
+                        buf = ''
+
+                if buf.strip():
+                    send_response(message.roomId, buf)
+
+                result = runner.invoke(ddos, args[1:] if not args[0] == BOT_NAME else args[2:])
+                LOGGER.debug("Result Output {} Result ExitCode {}".format(result.output, result.exit_code))
+                LOGGER.debug(message.text)
                 # Webex Teams has a limit on message size, so we need to chunk the output
                 #
                 split_output = result.output.split('\n')
@@ -125,79 +197,98 @@ def process_message(message):
                 args = message.text.split()
                 result = "Unauthorized user {}".format(email)
                 if role == "firewall":
-                    if args[0] == BOT_NAME and not (args[1:]):
-                        help_msg = "Please type @Marvin help in a group or hi in a 1:1 space to see me in action"
-                        send_response(message.roomId, help_msg)
+                    if handled_using_card(message, args):
+                        pass
                     if args[0] == BOT_NAME and args[1] == 'firewall' and args[2] == 'captures' and args[3] == 'asa':
                         greeting = "Please wait for ~30min-40min, scanning all FWs and contexts..."
+                        if handled_using_card(message, args):
+                            pass
                         send_response(message.roomId, greeting)
                         result = runner.invoke(firewall, args[1:] if not args[0] == BOT_NAME else args[2:])
-                        LOGGER.debug("Result Output {} Result ExitCode {}".format(result.output, result.exit_code))                        
+                        LOGGER.debug("Result Output {} Result ExitCode {}".format(result.output, result.exit_code))
+
                         # Webex Teams has a limit on message size, so we need to chunk the output
                         #
                         split_output = result.output.split('\n')
+
                         buf = ''
                         for line in split_output:
                             buf = buf + '\n' + line
                             if len(buf) > MAX_MSG_SIZE:
                                 send_response(message.roomId, buf)
                                 buf = ''
+
                         if buf.strip():
                             send_response(message.roomId, buf)
-
                     elif args[0] == 'firewall' and args[1] == 'captures' and args [2] == 'asa':
                         greeting = "Please wait for ~30min-40min, scanning all FWs and contexts..."
+                        if handled_using_card(message, args):
+                            pass
                         send_response(message.roomId, greeting)
                         result = runner.invoke(firewall, args[1:] if not args[0] == BOT_NAME else args[2:])
-                        LOGGER.debug("Result Output {} Result ExitCode {}".format(result.output, result.exit_code))                        
+                        LOGGER.debug("Result Output {} Result ExitCode {}".format(result.output, result.exit_code))
+
                         # Webex Teams has a limit on message size, so we need to chunk the output
                         #
                         split_output = result.output.split('\n')
+
                         buf = ''
                         for line in split_output:
                             buf = buf + '\n' + line
                             if len(buf) > MAX_MSG_SIZE:
                                 send_response(message.roomId, buf)
                                 buf = ''
+
                         if buf.strip():
                             send_response(message.roomId, buf)
-
                     elif args[0] == BOT_NAME and args[1] == 'firewall' and args[2] == 'captures' and args[3] == 'ftd':
                         greeting = "Please wait for a couple of minutes, scanning all FTDs ..."
+                        if handled_using_card(message, args):
+                            pass
                         send_response(message.roomId, greeting)
                         result = runner.invoke(firewall, args[1:] if not args[0] == BOT_NAME else args[2:])
-                        LOGGER.debug("Result Output {} Result ExitCode {}".format(result.output, result.exit_code))                        
+                        LOGGER.debug("Result Output {} Result ExitCode {}".format(result.output, result.exit_code))
+
                         # Webex Teams has a limit on message size, so we need to chunk the output
-                        # 
+                        #
                         split_output = result.output.split('\n')
+
                         buf = ''
                         for line in split_output:
                             buf = buf + '\n' + line
                             if len(buf) > MAX_MSG_SIZE:
                                 send_response(message.roomId, buf)
                                 buf = ''
+
                         if buf.strip():
                             send_response(message.roomId, buf)
                     elif args[0] == 'firewall' and args[1] == 'captures' and args [2] == 'ftd':
                         greeting = "Please wait for a couple of minutes, scanning all FTDs ..."
+                        if handled_using_card(message, args):
+                            pass
                         send_response(message.roomId, greeting)
                         result = runner.invoke(firewall, args[1:] if not args[0] == BOT_NAME else args[2:])
-                        LOGGER.debug("Result Output {} Result ExitCode {}".format(result.output, result.exit_code))                        
+                        LOGGER.debug("Result Output {} Result ExitCode {}".format(result.output, result.exit_code))
+
                         # Webex Teams has a limit on message size, so we need to chunk the output
-                        # 
+                        #
                         split_output = result.output.split('\n')
+
                         buf = ''
                         for line in split_output:
                             buf = buf + '\n' + line
                             if len(buf) > MAX_MSG_SIZE:
                                 send_response(message.roomId, buf)
                                 buf = ''
+
                         if buf.strip():
                             send_response(message.roomId, buf)
 
                     elif args[0] == BOT_NAME and args[1] == 'firewall' and args[2] == 'pwrscan':
                         logtype=args[2]
                         greeting = "Please wait for about 20-30min,scanning HW health for all ASAs/FPR4150/FPR9300"
+                        if handled_using_card(message, args):
+                            pass
                         send_response(message.roomId, greeting)
                         result = runner.invoke(firewall, args[1:] if not args[0] == BOT_NAME else args[2:])
                         LOGGER.debug("Result Output {} Result ExitCode {}".format(result.output, result.exit_code))
@@ -219,6 +310,8 @@ def process_message(message):
                     elif args[0] == 'firewall' and args[1] == 'pwrscan':
                         logtype=args[1]
                         greeting = "Please wait for about 20-30min,scanning HW health for all ASAs/FPR4150/FPR9300"
+                        if handled_using_card(message, args):
+                            pass
                         send_response(message.roomId, greeting)
                         result = runner.invoke(firewall, args[1:] if not args[0] == BOT_NAME else args[2:])
                         LOGGER.debug("Result Output {} Result ExitCode {}".format(result.output, result.exit_code))
@@ -237,13 +330,15 @@ def process_message(message):
                         if buf.strip():
                             send_response(message.roomId, buf) 
                         attachment_post(message.roomId,logtype)
- 
+                             
                     elif args[0] == BOT_NAME and args[1] == 'firewall' and args[2] == 'embaudit':
                         logtype=args[2]
                         greeting = "Please wait for ~1 hr, scanning EMBRYONIC Connection Settings on all ASAs"
+                        if handled_using_card(message, args):
+                            pass
                         send_response(message.roomId, greeting)
                         result = runner.invoke(firewall, args[1:] if not args[0] == BOT_NAME else args[2:])
-                        LOGGER.debug("Result Output {} Result ExitCode {}".format(result.output, result.exit_code))                        
+                        LOGGER.debug("Result Output {} Result ExitCode {}".format(result.output, result.exit_code))
                         # Webex Teams has a limit on message size, so we need to chunk the output
                         #
                         split_output = result.output.split('\n')
@@ -256,19 +351,21 @@ def process_message(message):
                                 buf = ''
 
                         if buf.strip():
-                            send_response(message.roomId, buf)
+                            send_response(message.roomId, buf) 
                         attachment_post(message.roomId,logtype)
 
                     elif args[0] == 'firewall' and args[1] == 'embaudit':
                         logtype=args[1]
                         greeting = "Please wait for ~1 hr, scanning EMBRYONIC Connection Settings on all ASAs"
+                        if handled_using_card(message, args):
+                            pass
                         send_response(message.roomId, greeting)
                         result = runner.invoke(firewall, args[1:] if not args[0] == BOT_NAME else args[2:])
-                        LOGGER.debug("Result Output {} Result ExitCode {}".format(result.output, result.exit_code))
-
+                        LOGGER.debug("Result Output {} Result ExitCode {}".format(result.output, result.exit_code)) 
                         # Webex Teams has a limit on message size, so we need to chunk the output
                         #
                         split_output = result.output.split('\n')
+
                         buf = ''
                         for line in split_output:
                             buf = buf + '\n' + line
@@ -278,11 +375,13 @@ def process_message(message):
 
                         if buf.strip():
                             send_response(message.roomId, buf)   
-                        attachment_post(message.roomId,logtype)
-                        
+                        attachment_post(message.roomId,logtype)   
+
                     elif args[0] == BOT_NAME and args[1] == 'firewall' and args[2] == 'codescan':
                         logtype=args[2]
                         greeting = "Please wait for ~10-15min scanning Software Code Version on all ASAs"
+                        if handled_using_card(message, args):
+                            pass
                         send_response(message.roomId, greeting)
                         result = runner.invoke(firewall, args[1:] if not args[0] == BOT_NAME else args[2:])
                         LOGGER.debug("Result Output {} Result ExitCode {}".format(result.output, result.exit_code))
@@ -304,6 +403,8 @@ def process_message(message):
                     elif args[0] == 'firewall' and args[1] == 'codescan':
                         logtype=args[1]
                         greeting = "Please wait for ~10-15min scanning Software Code Version on all ASAs"
+                        if handled_using_card(message, args):
+                            pass
                         send_response(message.roomId, greeting)
                         result = runner.invoke(firewall, args[1:] if not args[0] == BOT_NAME else args[2:])
                         LOGGER.debug("Result Output {} Result ExitCode {}".format(result.output, result.exit_code))
@@ -320,15 +421,19 @@ def process_message(message):
 
                         if buf.strip():
                             send_response(message.roomId, buf)    
-                        attachment_post(message.roomId,logtype)  
-
+                        attachment_post(message.roomId,logtype)    
                     else:
                         result = runner.invoke(firewall, args[1:] if not args[0] == BOT_NAME else args[2:])
-                        LOGGER.debug("{} {}".format(result.output, result.exit_code))
-                         #
-                         # Webex Teams has a limit on message size, so we need to chunk the output
-                         #                 
+                        if handled_using_card(message, args):
+                            pass
+                        print("Output of the invocation")
+                        print(result)
+                        LOGGER.debug("Result Output {} Result ExitCode {}".format(result.output, result.exit_code))
+                        #
+                        # Webex Teams has a limit on message size, so we need to chunk the output
+                        #
                         split_output = result.output.split('\n')
+
                         buf = ''
                         for line in split_output:
                             buf = buf + '\n' + line
@@ -340,8 +445,7 @@ def process_message(message):
                             send_response(message.roomId, buf)
 
         except ApiError:
-            LOGGER.error("Unable to fetch message {} Log Details: {}".format(message_id, json_data))
-
+            LOGGER.error("Unable to fetch message {}{}".format(message_id, json_data))
 
 def on_message(ws, message):
     message_processor.submit(process_message, message)
