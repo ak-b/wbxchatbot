@@ -1,7 +1,7 @@
 # Security Bot
  Delivering a Virtual Assistant to guide members and help them navigate WebEx infrastructure serving various features like:
-+ Device Health
-+ Logging
++ Device and Chassis Health, Code scans
++ Logging- netdb,kibana/clp,solarwinds,snow
 + Search for ACL rules, port status, IP reputation DB
 + Auditing Configurations
 + DDOS applications
