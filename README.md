@@ -24,3 +24,8 @@ https://wiki.cisco.com/display/AS13445/Use+Case+to+Feature+Translation
 ## User Guide
 https://wiki.cisco.com/display/AS13445/Usage+Guide
 https://wiki.cisco.com/display/AS13445/Usage+Guide+Generic
+
+
+
+***Credits***
+Storage bot- wibot code used as a baseline , in the future the bots can be merged together into a collab bot if there is interest.
