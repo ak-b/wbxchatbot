@@ -5,6 +5,7 @@
 + Search for ACL rules, port status, IP reputation DB
 + Auditing Configurations
 + DDOS applications
++ Port status
 
 ## Problem Statement
 Knowledge gaps, miscommunication and lack of proper process and standards in place,
