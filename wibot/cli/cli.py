@@ -21,6 +21,7 @@ from wibot.cli.firewall.search_ipi import search_ipi as search_ipi
 from wibot.cli.firewall.feed_wl import feed_wl as feed_wl
 from wibot.cli.firewall.remove_feed import remove_feed as remove_feed
 from wibot.cli.firewall.search_es import logs as logs
+from wibot.cli.firewall.port_scanner import scan_port as scan_port
 
 @click.group(name = 'ddos')
 def ddos(args=None):
@@ -38,11 +39,10 @@ def firewall(args=None):
 	"""
 	pass
 
-<<<<<<< HEAD
+
 firewall.add_command(logs)
-=======
->>>>>>> 4b78f22bbfec0a2f4afe861ef0fea359c8041cec
 ddos.add_command(search_ipi)
+firewall.add_command(scan_port)
 firewall.add_command(remove_feed)
 firewall.add_command(feed_wl)
 firewall.add_command(search_ipi)
