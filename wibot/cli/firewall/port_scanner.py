@@ -6,8 +6,16 @@ nmap = nmap3.Nmap()
 results = nmap.scan_top_ports("your-host.com")
 # And you would get your results in json
 '''
+
 import nmap3
 
+
+@click.group(help='Port Scanner')
+def scan_port():
+	pass
+
+@scan_port.command(help = 'Returns Port Scan Results')
+@click.argument('port_number')
 def scan_port(port_number):
    
     # take the range of ports to  
