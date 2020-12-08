@@ -8,6 +8,7 @@ results = nmap.scan_top_ports("your-host.com")
 '''
 
 import nmap3
+import click
 
 
 @click.group(help='Port Scanner')
@@ -44,5 +45,5 @@ def scan_port(port_number):
 
         print(f'port {i} is {res}.') 
         
-  if __name__ == "__init__":
+if __name__ == "__init__" :
     scan_port('80')
